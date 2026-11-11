@@ -11,8 +11,6 @@
   <!-- React and ReactDOM -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <!-- Babel Standalone -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fredoka:wght@400;500;600;700&display=swap');
@@ -51,909 +49,521 @@ footer{background:#244e4b!important;border-top:8px solid #d6e4c6!important;borde
 </style>
 </head>
 <body class="bg-slate-50 min-h-screen">
-  <div id="root"></div>
+  <div id="root"><p style="padding:2rem;font-family:sans-serif">Bright Blessings Home Daycare · Loading / Cargando…</p></div><noscript>Please enable JavaScript to explore our daycare. / Active JavaScript para explorar nuestra guardería. Contact: 203-400-1232.</noscript>
 
-  <script type="text/babel">
-const { useState, useEffect, useRef } = React;
-
-function App() {
-  const copy = (en, es) => lang === 'en' ? en : es;
-  const [motionPaused, setMotionPaused] = useState(false);
-  const [revealedWords, setRevealedWords] = useState([]);
-  const [colorRound, setColorRound] = useState(0);
-  const [colorAnswer, setColorAnswer] = useState(null);
-  const [blockCount, setBlockCount] = useState(3);
-  const [countAnswer, setCountAnswer] = useState(null);
-  const headingRef = useRef(null);
-  const firstPage = useRef(true);
-  const [currentPage, setCurrentPage] = useState('home');
-  const [lang, setLang] = useState('en');
-  const [selectedAge, setSelectedAge] = useState('infant');
-  const [care4Kids, setCare4Kids] = useState(false);
-  const [activeCategory, setActiveCategory] = useState('all');
-  const [tourForm, setTourForm] = useState({ name: '', email: '', phone: '', date: '', notes: '' });
-  const [tourSubmitted, setTourSubmitted] = useState(false);
-
-  useEffect(() => { document.documentElement.lang = lang; }, [lang]);
-  useEffect(() => {
-    document.documentElement.classList.toggle('motion-paused', motionPaused);
-    return () => document.documentElement.classList.remove('motion-paused');
-  }, [motionPaused]);
-  useEffect(() => {
-    if (firstPage.current) { firstPage.current = false; return; }
-    headingRef.current?.focus({ preventScroll: true });
-    window.scrollTo({ top: 0, behavior: 'auto' });
-  }, [currentPage]);
-
-  // Time / active schedule checker
-  const [currentTimeStr, setCurrentTimeStr] = useState('');
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      setCurrentTimeStr(now.toLocaleTimeString(lang === 'en' ? 'en-US' : 'es-US', { hour: '2-digit', minute: '2-digit', timeZone: 'America/New_York' }));
+  <script>
+(() => {
+  const { useState, useEffect, useRef } = React;
+  function App() {
+    const copy = (en, es) => lang === "en" ? en : es;
+    const [motionPaused, setMotionPaused] = useState(false);
+    const [revealedWords, setRevealedWords] = useState([]);
+    const [colorRound, setColorRound] = useState(0);
+    const [colorAnswer, setColorAnswer] = useState(null);
+    const [blockCount, setBlockCount] = useState(3);
+    const [countAnswer, setCountAnswer] = useState(null);
+    const headingRef = useRef(null);
+    const firstPage = useRef(true);
+    const [currentPage, setCurrentPage] = useState("home");
+    const [lang, setLang] = useState("en");
+    const [selectedAge, setSelectedAge] = useState("infant");
+    const [care4Kids, setCare4Kids] = useState(false);
+    const [activeCategory, setActiveCategory] = useState("all");
+    const [tourForm, setTourForm] = useState({ name: "", email: "", phone: "", date: "", notes: "" });
+    const [tourSubmitted, setTourSubmitted] = useState(false);
+    useEffect(() => {
+      document.documentElement.lang = lang;
+    }, [lang]);
+    useEffect(() => {
+      document.documentElement.classList.toggle("motion-paused", motionPaused);
+      return () => document.documentElement.classList.remove("motion-paused");
+    }, [motionPaused]);
+    useEffect(() => {
+      if (firstPage.current) {
+        firstPage.current = false;
+        return;
+      }
+      headingRef.current?.focus({ preventScroll: true });
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }, [currentPage]);
+    const [currentTimeStr, setCurrentTimeStr] = useState("");
+    useEffect(() => {
+      const updateTime = () => {
+        const now = /* @__PURE__ */ new Date();
+        setCurrentTimeStr(now.toLocaleTimeString(lang === "en" ? "en-US" : "es-US", { hour: "2-digit", minute: "2-digit", timeZone: "America/New_York" }));
+      };
+      updateTime();
+      const interval = setInterval(updateTime, 1e4);
+      return () => clearInterval(interval);
+    }, [lang]);
+    const translations = {
+      en: {
+        tagline: "Licensed Home Daycare in Trumbull, CT \u2022 Ms. Rosa Almazan",
+        home: "Home",
+        schedule: "Schedule / Horario",
+        spaces: "Our Spaces",
+        programs: "Programs & Rates",
+        reviews: "Reviews & Map",
+        play: "Play & Learn",
+        tour: "Book a Tour",
+        callUs: "Call Ms. Rosa",
+        emailUs: "Email Us",
+        welcomeTitle: "Welcome to Bright Blessings Home Daycare",
+        welcomeSub: "A warm, loving, bilingual home away from home where little ones learn, play, and grow safely.",
+        quickStatsTitle: "At a Glance",
+        stat1Title: "Licensed Capacity",
+        stat1Desc: "6 full-time + 3 school-age children for personal attention.",
+        stat2Title: "Google Rating",
+        stat2Desc: "4.5 \u2605 across 8 glowing parent reviews.",
+        stat3Title: "Hours of Care",
+        stat3Desc: "Mon\u2013Fri 6:00 AM \u2013 10:00 PM (Regular 7am\u20135pm).",
+        stat4Title: "State Subsidy",
+        stat4Desc: "CT Care 4 Kids accepted & welcomed here!",
+        exploreSpacesBtn: "Take a Virtual House Tour",
+        viewScheduleBtn: "View Daily Schedule",
+        checkRatesBtn: "View Tuition & Rates",
+        scheduleTourBtn: "Schedule a Visit",
+        // Schedule Page
+        scheduleTitle: "Daily Schedule / Horario Diario",
+        scheduleSub: "Ms. Rosa's structured daily routine supporting cognitive, social, and physical growth (7:30 AM \u2013 5:00 PM).",
+        filterAll: "All Activities",
+        filterMorning: "Morning (7:30a-12p)",
+        filterAfternoon: "Afternoon (12p-5p)",
+        printHandout: "View / Print Official Handout",
+        // Spaces Page
+        spacesTitle: "Explore Our Home & Play Spaces",
+        spacesSub: "Designed specifically for safety, exploration, and joyful learning in a clean, nurturing home environment.",
+        // Programs Page
+        programsTitle: "Programs, Rates & Subsidies",
+        programsSub: "Transparent pricing based on official CT 211 Child Care records. State subsidies accepted.",
+        infantTitle: "Infants (6 Weeks \u2013 17 Months)",
+        infantRate: "$350 / week",
+        infantDesc: "Gentle responsive care, tummy time, sensory play, and individualized feeding/nap schedules.",
+        toddlerTitle: "Toddlers & Preschool (18 \u2013 71 Months)",
+        toddlerRate: "$300 / week",
+        toddlerDesc: "Circle time, early literacy, arts & crafts, potty training support, and bilingual immersion.",
+        subsidyBoxTitle: "Help Paying for Care: CT Care 4 Kids",
+        subsidyBoxDesc: "Families meeting state guidelines may qualify for financial assistance. Ask Ms. Rosa how to apply!",
+        // Reviews & Map Page
+        reviewsMapTitle: "Reviews & Location",
+        reviewsMapSub: "Visit us in Trumbull, CT or read what local families have to say.",
+        addressLabel: "82 Tait Rd, Trumbull, CT 06611",
+        directionsBtn: "Get Directions on Google Maps",
+        reviewsHeading: "Parent Love & Google Reviews",
+        // Play & Learn Page
+        playTitle: "Play & Learn Activity Center",
+        playSub: "Interactive bilingual fun for kids and parents! Tap cards to explore words in English and Spanish.",
+        // Tour Page
+        tourTitle: "Schedule a Tour with Ms. Rosa",
+        tourSub: "We'd love to show you our home daycare. Fill out the form below or call Ms. Rosa directly at 203-400-1232.",
+        nameLabel: "Parent Name",
+        emailLabel: "Email Address",
+        phoneLabel: "Phone Number",
+        dateLabel: "Preferred Visit Date",
+        notesLabel: "Child's Age & Notes",
+        submitTour: "Send Tour Request",
+        tourSuccessTitle: "Finish Sending Your Request",
+        tourSuccessMsg: "Your email app should open with your tour details. Please press Send there. Your visit is confirmed only when Ms. Rosa replies. If it did not open, call 203-400-1232."
+      },
+      es: {
+        tagline: "Guarder\xEDa Casera Licenciada en Trumbull, CT \u2022 Ms. Rosa Almazan",
+        home: "Inicio",
+        schedule: "Horario",
+        spaces: "Espacios",
+        programs: "Programas y Tarifas",
+        reviews: "Rese\xF1as y Mapa",
+        play: "Juegos y Aprendizaje",
+        tour: "Reservar Visita",
+        callUs: "Llamar a Ms. Rosa",
+        emailUs: "Enviar Correo",
+        welcomeTitle: "Bienvenidos a Bright Blessings Home Daycare",
+        welcomeSub: "Un hogar c\xE1lido, amoroso y biling\xFCe donde los peque\xF1os aprenden, juegan y crecen seguros.",
+        quickStatsTitle: "Resumen R\xE1pido",
+        stat1Title: "Capacidad Licenciada",
+        stat1Desc: "6 ni\xF1os de tiempo completo + 3 en edad escolar para atenci\xF3n personalizada.",
+        stat2Title: "Calificaci\xF3n Google",
+        stat2Desc: "4.5 \u2605 en 8 rese\xF1as de padres felices.",
+        stat3Title: "Horario de Atenci\xF3n",
+        stat3Desc: "Lun\u2013Vie 6:00 AM \u2013 10:00 PM (Regular 7am\u20135pm).",
+        stat4Title: "Subsidio Estatal",
+        stat4Desc: "\xA1Se acepta y da la bienvenida a CT Care 4 Kids!",
+        exploreSpacesBtn: "Tour Virtual del Hogar",
+        viewScheduleBtn: "Ver Horario Diario",
+        checkRatesBtn: "Ver Tarifas y Precios",
+        scheduleTourBtn: "Programar Visita",
+        // Schedule Page
+        scheduleTitle: "Horario Diario / Daily Schedule",
+        scheduleSub: "Rutina diaria estructurada por Ms. Rosa para apoyar el crecimiento cognitivo y social (7:30 AM \u2013 5:00 PM).",
+        filterAll: "Todas las Actividades",
+        filterMorning: "Ma\xF1ana (7:30a-12p)",
+        filterAfternoon: "Tarde (12p-5p)",
+        printHandout: "Ver / Imprimir Folleto Oficial",
+        // Spaces Page
+        spacesTitle: "Explore Nuestras \xC1reas de Juego",
+        spacesSub: "Dise\xF1adas espec\xEDficamente para la seguridad, exploraci\xF3n y aprendizaje feliz en un ambiente hogare\xF1o limpio.",
+        // Programs Page
+        programsTitle: "Programas, Tarifas y Subsidios",
+        programsSub: "Precios transparentes basados en registros oficiales de CT 211 Child Care. Subsidios aceptados.",
+        infantTitle: "Beb\xE9s (6 Semanas \u2013 17 Meses)",
+        infantRate: "$350 / semana",
+        infantDesc: "Cuidado tierno y receptivo, tiempo boca abajo, juego sensorial y horarios personalizados.",
+        toddlerTitle: "Ni\xF1os Peque\xF1os y Preescolar (18 \u2013 71 Meses)",
+        toddlerRate: "$300 / semana",
+        toddlerDesc: "Hora del c\xEDrculo, lectoescritura temprana, artes pl\xE1sticas, control de esf\xEDnteres e inmersi\xF3n biling\xFCe.",
+        subsidyBoxTitle: "Ayuda para Pagar Cuidado: CT Care 4 Kids",
+        subsidyBoxDesc: "Las familias que cumplen con las gu\xEDas estatales pueden calificar para asistencia financiera.",
+        // Reviews & Map Page
+        reviewsMapTitle: "Rese\xF1as y Ubicaci\xF3n",
+        reviewsMapSub: " Vis\xEDtenos en Trumbull, CT o lea lo que dicen las familias locales.",
+        addressLabel: "82 Tait Rd, Trumbull, CT 06611",
+        directionsBtn: "Obtener Direcciones en Google Maps",
+        reviewsHeading: "Amor de Padres y Rese\xF1as de Google",
+        // Play & Learn Page
+        playTitle: "Centro de Juegos y Aprendizaje",
+        playSub: "\xA1Diversi\xF3n biling\xFCe interactiva! Toque las tarjetas para explorar palabras en ingl\xE9s y espa\xF1ol.",
+        // Tour Page
+        tourTitle: "Programe una Visita con Ms. Rosa",
+        tourSub: "Nos encantar\xEDa mostrarle nuestra guarder\xEDa. Complete el formulario o llame directamente al 203-400-1232.",
+        nameLabel: "Nombre del Padre / Madre",
+        emailLabel: "Correo Electr\xF3nico",
+        phoneLabel: "N\xFAmero de Tel\xE9fono",
+        dateLabel: "Fecha Preferida de Visita",
+        notesLabel: "Edad del Ni\xF1o y Notas",
+        submitTour: "Enviar Solicitud de Visita",
+        tourSuccessTitle: "Termine de Enviar su Solicitud",
+        tourSuccessMsg: "Su aplicaci\xF3n de correo deber\xEDa abrirse con los detalles. Pulse Enviar all\xED. La visita solo queda confirmada cuando Ms. Rosa responda. Si no se abri\xF3, llame al 203-400-1232."
+      }
     };
-    updateTime();
-    const interval = setInterval(updateTime, 10000);
-    return () => clearInterval(interval);
-  }, [lang]);
-
-  // Bilingual dictionary
-  const translations = {
-    en: {
-      tagline: "Licensed Home Daycare in Trumbull, CT  Ms. Rosa Almazan",
-      home: "Home",
-      schedule: "Schedule / Horario",
-      spaces: "Our Spaces",
-      programs: "Programs & Rates",
-      reviews: "Reviews & Map",
-      play: "Play & Learn",
-      tour: "Book a Tour",
-      callUs: "Call Ms. Rosa",
-      emailUs: "Email Us",
-      welcomeTitle: "Welcome to Bright Blessings Home Daycare",
-      welcomeSub: "A warm, loving, bilingual home away from home where little ones learn, play, and grow safely.",
-      quickStatsTitle: "At a Glance",
-      stat1Title: "Licensed Capacity",
-      stat1Desc: "6 full-time + 3 school-age children for personal attention.",
-      stat2Title: "Google Rating",
-      stat2Desc: "4.5 ? across 8 glowing parent reviews.",
-      stat3Title: "Hours of Care",
-      stat3Desc: "Mon-Fri 6:00 AM - 10:00 PM (Regular 7am-5pm).",
-      stat4Title: "State Subsidy",
-      stat4Desc: "CT Care 4 Kids accepted & welcomed here!",
-      exploreSpacesBtn: "Take a Virtual House Tour",
-      viewScheduleBtn: "View Daily Schedule",
-      checkRatesBtn: "View Tuition & Rates",
-      scheduleTourBtn: "Schedule a Visit",
-      
-      // Schedule Page
-      scheduleTitle: "Daily Schedule / Horario Diario",
-      scheduleSub: "Ms. Rosa's structured daily routine supporting cognitive, social, and physical growth (7:30 AM - 5:00 PM).",
-      filterAll: "All Activities",
-      filterMorning: "Morning (7:30a-12p)",
-      filterAfternoon: "Afternoon (12p-5p)",
-      printHandout: "View / Print Official Handout",
-      
-      // Spaces Page
-      spacesTitle: "Explore Our Home & Play Spaces",
-      spacesSub: "Designed specifically for safety, exploration, and joyful learning in a clean, nurturing home environment.",
-      
-      // Programs Page
-      programsTitle: "Programs, Rates & Subsidies",
-      programsSub: "Transparent pricing based on official CT 211 Child Care records. State subsidies accepted.",
-      infantTitle: "Infants (6 Weeks - 17 Months)",
-      infantRate: "$350 / week",
-      infantDesc: "Gentle responsive care, tummy time, sensory play, and individualized feeding/nap schedules.",
-      toddlerTitle: "Toddlers & Preschool (18 - 71 Months)",
-      toddlerRate: "$300 / week",
-      toddlerDesc: "Circle time, early literacy, arts & crafts, potty training support, and bilingual immersion.",
-      subsidyBoxTitle: "Help Paying for Care: CT Care 4 Kids",
-      subsidyBoxDesc: "Families meeting state guidelines may qualify for financial assistance. Ask Ms. Rosa how to apply!",
-      
-      // Reviews & Map Page
-      reviewsMapTitle: "Reviews & Location",
-      reviewsMapSub: "Visit us in Trumbull, CT or read what local families have to say.",
-      addressLabel: "82 Tait Rd, Trumbull, CT 06611",
-      directionsBtn: "Get Directions on Google Maps",
-      reviewsHeading: "Parent Love & Google Reviews",
-      
-      // Play & Learn Page
-      playTitle: "Play & Learn Activity Center",
-      playSub: "Interactive bilingual fun for kids and parents! Tap cards to explore words in English and Spanish.",
-      
-      // Tour Page
-      tourTitle: "Schedule a Tour with Ms. Rosa",
-      tourSub: "We'd love to show you our home daycare. Fill out the form below or call Ms. Rosa directly at 203-400-1232.",
-      nameLabel: "Parent Name",
-      emailLabel: "Email Address",
-      phoneLabel: "Phone Number",
-      dateLabel: "Preferred Visit Date",
-      notesLabel: "Child's Age & Notes",
-      submitTour: "Send Tour Request",
-      tourSuccessTitle: "Finish Sending Your Request",
-      tourSuccessMsg: "Your email app should open with your tour details. Please press Send there. Your visit is confirmed only when Ms. Rosa replies. If it did not open, call 203-400-1232."
-    },
-    es: {
-      tagline: "Guarder�a Casera Licenciada en Trumbull, CT  Ms. Rosa Almazan",
-      home: "Inicio",
-      schedule: "Horario",
-      spaces: "Espacios",
-      programs: "Programas y Tarifas",
-      reviews: "Rese�as y Mapa",
-      play: "Juegos y Aprendizaje",
-      tour: "Reservar Visita",
-      callUs: "Llamar a Ms. Rosa",
-      emailUs: "Enviar Correo",
-      welcomeTitle: "Bienvenidos a Bright Blessings Home Daycare",
-      welcomeSub: "Un hogar c�lido, amoroso y biling�e donde los peque�os aprenden, juegan y crecen seguros.",
-      quickStatsTitle: "Resumen R�pido",
-      stat1Title: "Capacidad Licenciada",
-      stat1Desc: "6 ni�os de tiempo completo + 3 en edad escolar para atenci�n personalizada.",
-      stat2Title: "Calificaci�n Google",
-      stat2Desc: "4.5 ? en 8 rese�as de padres felices.",
-      stat3Title: "Horario de Atenci�n",
-      stat3Desc: "Lun-Vie 6:00 AM - 10:00 PM (Regular 7am-5pm).",
-      stat4Title: "Subsidio Estatal",
-      stat4Desc: "�Se acepta y da la bienvenida a CT Care 4 Kids!",
-      exploreSpacesBtn: "Tour Virtual del Hogar",
-      viewScheduleBtn: "Ver Horario Diario",
-      checkRatesBtn: "Ver Tarifas y Precios",
-      scheduleTourBtn: "Programar Visita",
-      
-      // Schedule Page
-      scheduleTitle: "Horario Diario / Daily Schedule",
-      scheduleSub: "Rutina diaria estructurada por Ms. Rosa para apoyar el crecimiento cognitivo y social (7:30 AM - 5:00 PM).",
-      filterAll: "Todas las Actividades",
-      filterMorning: "Ma�ana (7:30a-12p)",
-      filterAfternoon: "Tarde (12p-5p)",
-      printHandout: "Ver / Imprimir Folleto Oficial",
-      
-      // Spaces Page
-      spacesTitle: "Explore Nuestras Areas de Juego",
-      spacesSub: "Dise�adas espec�ficamente para la seguridad, exploraci�n y aprendizaje feliz en un ambiente hogare�o limpio.",
-      
-      // Programs Page
-      programsTitle: "Programas, Tarifas y Subsidios",
-      programsSub: "Precios transparentes basados en registros oficiales de CT 211 Child Care. Subsidios aceptados.",
-      infantTitle: "Beb�s (6 Semanas - 17 Meses)",
-      infantRate: "$350 / semana",
-      infantDesc: "Cuidado tierno y receptivo, tiempo boca abajo, juego sensorial y horarios personalizados.",
-      toddlerTitle: "Ni�os Peque�os y Preescolar (18 - 71 Meses)",
-      toddlerRate: "$300 / semana",
-      toddlerDesc: "Hora del c�rculo, lectoescritura temprana, artes pl�sticas, control de esf�nteres e inmersi�n biling�e.",
-      subsidyBoxTitle: "Ayuda para Pagar Cuidado: CT Care 4 Kids",
-      subsidyBoxDesc: "Las familias que cumplen con las gu�as estatales pueden calificar para asistencia financiera.",
-      
-      // Reviews & Map Page
-      reviewsMapTitle: "Rese�as y Ubicaci�n",
-      reviewsMapSub: " Vis�tenos en Trumbull, CT o lea lo que dicen las familias locales.",
-      addressLabel: "82 Tait Rd, Trumbull, CT 06611",
-      directionsBtn: "Obtener Direcciones en Google Maps",
-      reviewsHeading: "Amor de Padres y Rese�as de Google",
-      
-      // Play & Learn Page
-      playTitle: "Centro de Juegos y Aprendizaje",
-      playSub: "�Diversi�n biling�e interactiva! Toque las tarjetas para explorar palabras en ingl�s y espa�ol.",
-      
-      // Tour Page
-      tourTitle: "Programe una Visita con Ms. Rosa",
-      tourSub: "Nos encantar�a mostrarle nuestra guarder�a. Complete el formulario o llame directamente al 203-400-1232.",
-      nameLabel: "Nombre del Padre / Madre",
-      emailLabel: "Correo Electr�nico",
-      phoneLabel: "N�mero de Tel�fono",
-      dateLabel: "Fecha Preferida de Visita",
-      notesLabel: "Edad del Ni�o y Notas",
-      submitTour: "Enviar Solicitud de Visita",
-      tourSuccessTitle: "Termine de Enviar su Solicitud",
-      tourSuccessMsg: "Su aplicaci�n de correo deber�a abrirse con los detalles. Pulse Enviar all�. La visita solo queda confirmada cuando Ms. Rosa responda. Si no se abri�, llame al 203-400-1232."
-    }
-  };
-
-  const t = translations[lang];
-  const currentT = t;
-
-  // Official 20-step schedule items
-  const scheduleItems = [
-    { time: "7:30 AM", en: "Arrival / wash hands", es: "Llegada / Lavar manos", cat: "morning", icon: "??" },
-    { time: "7:45 AM - 8:45 AM", en: "Freeplay", es: "Juego Libre", cat: "morning", icon: "??" },
-    { time: "8:45 AM - 9:15 AM", en: "Breakfast", es: "Desayuno", cat: "morning", icon: "??" },
-    { time: "9:15 AM - 9:30 AM", en: "Bathroom / wash hands", es: "Ba�o / Lavar manos", cat: "morning", icon: "??" },
-    { time: "9:30 AM - 9:45 AM", en: "Circle time", es: "C�rculo", cat: "morning", icon: "?" },
-    { time: "9:45 AM - 10:00 AM", en: "Story time", es: "Cuento", cat: "morning", icon: "??" },
-    { time: "10:00 AM - 10:30 AM", en: "Music and Movement", es: "M�sica y Movimiento", cat: "morning", icon: "??" },
-    { time: "10:30 AM - 11:00 AM", en: "Centers", es: "Centros", cat: "morning", icon: "??" },
-    { time: "11:00 AM - 12:00 PM", en: "Outdoor play (weather permitting)", es: "Juego al aire libre (dependiendo el clima)", cat: "morning", icon: "??" },
-    { time: "12:00 PM - 12:05 PM", en: "Wash hands", es: "Lavar manos", cat: "afternoon", icon: "??" },
-    { time: "12:05 PM - 12:15 PM", en: "Independent reading", es: "Lectura independiente", cat: "afternoon", icon: "??" },
-    { time: "12:15 PM - 12:45 PM", en: "Lunch", es: "Almuerzo", cat: "afternoon", icon: "??" },
-    { time: "12:45 PM - 1:00 PM", en: "Bathroom", es: "Ba�o", cat: "afternoon", icon: "??" },
-    { time: "1:00 PM - 3:00 PM", en: "Naptime", es: "Siesta", cat: "afternoon", icon: "??" },
-    { time: "3:00 PM - 3:15 PM", en: "Clean up cots", es: "Limpiar camitas", cat: "afternoon", icon: "???" },
-    { time: "3:15 PM - 3:45 PM", en: "Afternoon Snack", es: "Merienda", cat: "afternoon", icon: "??" },
-    { time: "3:45 PM - 4:00 PM", en: "Bathroom", es: "Ba�o", cat: "afternoon", icon: "??" },
-    { time: "4:00 PM - 4:30 PM", en: "Walk (weather permitting)", es: "Caminar (dependiendo el clima)", cat: "afternoon", icon: "????" },
-    { time: "4:30 PM - 5:00 PM", en: "Outdoor play (weather permitting)", es: "Juego al aire libre (dependiendo el clima)", cat: "afternoon", icon: "??" },
-    { time: "5:00 PM", en: "Dismissal", es: "Despedida", cat: "afternoon", icon: "??" }
-  ];
-
-  const spacesList = [
-    { titleEn: "Circle & Story Nook", titleEs: "Rinc�n de C�rculo y Cuentos", descEn: "A cozy, sunlit rug area with soft cushions where children gather for morning circle, bilingual stories, and songs.", descEs: "Un �rea de alfombra acogedora y luminosa con cojines suaves donde los ni�os se re�nen para cuentos y canciones.", icon: "??", color: "bg-pink-100 text-pink-700" },
-    { titleEn: "Learning & Art Centers", titleEs: "Centros de Aprendizaje y Arte", descEn: "Hands-on discovery stations featuring blocks, puzzles, fine motor toys, and creative painting easels.", descEs: "Estaciones de descubrimiento pr�ctico con bloques, rompecabezas, juguetes de motricidad y caballetes de arte.", icon: "??", color: "bg-blue-100 text-blue-700" },
-    { titleEn: "Sunny Dining & Hygiene Station", titleEs: "Estaci�n de Comedor e Higiene", descEn: "Clean, sanitized child-sized seating for nutritious breakfasts, lunches, and snacks, paired with accessible wash sinks.", descEs: "Asientos limpios y desinfectados para nutritivos desayunos, almuerzos y meriendas.", icon: "??", color: "bg-amber-100 text-amber-700" },
-    { titleEn: "Cozy Naptime Room", titleEs: "Sala de Siesta Acogedora", descEn: "A quiet, peaceful climate-controlled space with individual sanitized sleeping cots and gentle lullabies.", descEs: "Un espacio tranquilo con cunas individuales sanitizadas y suaves canciones de cuna.", icon: "??", color: "bg-purple-100 text-purple-700" },
-    { titleEn: "Safe Fenced Outdoor Yard", titleEs: "Patio Exterior Seguro con Cerca", descEn: "A fully fenced grassy outdoor play area for daily walks, fresh air games, and motor skill development in Trumbull.", descEs: "Un �rea de juego exterior totalmente cercada para caminatas diarias y juegos al aire libre.", icon: "??", color: "bg-emerald-100 text-emerald-700" }
-  ];
-
-  const reviewsList = [
-    { name: "Parent Review", stars: "?????", text: "Ms. Rosa is incredible! My daughter learned so much vocabulary in both English and Spanish, and the home is spotless and loving.", date: "Google Review" },
-    { name: "Local Family", stars: "?????", text: "Truly a blessing to find Bright Blessings. Professional, safe, and our toddler looks forward to going every single morning.", date: "Google Review" },
-    { name: "Trumbull Parent", stars: "?????", text: "Flexible hours, wonderful backyard play area, and exceptional care. Highly recommend Ms. Rosa to any working parent!", date: "Google Review" }
-  ];
-
-  const playCards = [
-    { en: "Rainbow / Arco�ris", descEn: "Colors in the sky after the rain!", descEs: "�Colores en el cielo despu�s de la lluvia!", icon: "??", time: "Morning Circle" },
-    { en: "Sunshine / Sol", descEn: "Warm light for outdoor play!", descEs: "�Luz c�lida para jugar afuera!", icon: "??", time: "Outdoor Play" },
-    { en: "Apple / Manzana", descEn: "A healthy snack to share with friends.", descEs: "Un bocadillo saludable para compartir.", icon: "??", time: "Afternoon Snack" },
-    { en: "Book / Libro", descEn: "Stories that spark imagination.", descEs: "Cuentos que encienden la imaginaci�n.", icon: "??", time: "Story Time" },
-    { en: "Music / M�sica", descEn: "Singing and dancing together!", descEs: "�Cantar y bailar juntos!", icon: "??", time: "Music & Movement" },
-    { en: "Friends / Amigos", descEn: "Learning to share and play kindly.", descEs: "Aprendiendo a compartir y jugar con cari�o.", icon: "??", time: "Freeplay" }
-  ];
-
-  return (
-    <div className="site-shell min-h-screen text-slate-800 selection:bg-pink-200">
-      
-      <a href="#main-content" className="skip-link">{copy('Skip to content', 'Saltar al contenido')}</a>
-      <div className="sky-playground" aria-hidden="true">
-        <div className="cloud one" /><div className="cloud two" />
-        {[0,1,2,3,4,5].map(i => <span key={i} className="bubble" style={{'--size': (24+i*9)+'px', '--left': (4+i*18)+'%', '--duration': (22+i*4)+'s', '--delay': (-i*7)+'s'}} />)}
-      </div>
-      {/* TOP RAINBOW BANNER */}
-      <div className="rainbow-strip" />
-
-      {/* HEADER NAVIGATION */}
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-pink-100">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
-          
-          {/* LOGO & TITLE */}
-          <button onClick={() => setCurrentPage('home')} className="flex items-center gap-3 text-left group">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
-              <span className="text-2xl">??</span>
-            </div>
-            <div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
-                Bright Blessings
-              </h1>
-              <p className="text-xs font-medium text-slate-500">{copy('Home Daycare', 'Guarder�a en el hogar')}  Trumbull, CT</p>
-            </div>
-          </button>
-
-          {/* DESKTOP NAV TABS */}
-          <nav className="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1.5 rounded-full border border-slate-200/60">
-            {[
-              { id: 'home', label: t.home, icon: '??' },
-              { id: 'schedule', label: t.schedule, icon: '?' },
-              { id: 'spaces', label: t.spaces, icon: '??' },
-              { id: 'programs', label: t.programs, icon: '??' },
-              { id: 'reviews', label: t.reviews, icon: '?' },
-              { id: 'play', label: t.play, icon: '??' },
-              { id: 'tour', label: t.tour, icon: '??' }
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setCurrentPage(tab.id)}
-                aria-current={currentPage === tab.id ? 'page' : undefined}
-                className={`px-4 py-2 rounded-full text-sm font-semibold transition-all flex items-center gap-1.5 ${
-                  currentPage === tab.id
-                    ? 'bg-white text-pink-600 shadow-sm'
-                    : 'text-slate-600 hover:text-pink-600 hover:bg-white/50'
-                }`}
-              >
-                <span>{tab.icon}</span>
-                <span>{tab.label}</span>
-              </button>
-            ))}
-          </nav>
-
-          {/* RIGHT ACTIONS: LANGUAGE TOGGLE & PHONE */}
-          <div className="flex items-center gap-3">
-            <button className="motion-control" onClick={() => setMotionPaused(!motionPaused)} aria-pressed={motionPaused} aria-label={motionPaused ? copy('Resume animations', 'Reanudar animaciones') : copy('Pause animations', 'Pausar animaciones')} title={motionPaused ? copy('Resume animations', 'Reanudar animaciones') : copy('Pause animations', 'Pausar animaciones')}>{motionPaused ? '?' : '?'}</button>
-            <div className="flex bg-slate-100 p-1 rounded-full border border-slate-200 shadow-inner">
-              <button
-                onClick={() => setLang('en')}
-                aria-label="English" aria-pressed={lang === 'en'}
-                className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
-                  lang === 'en' ? 'bg-pink-500 text-white shadow-sm' : 'text-slate-600 hover:text-pink-600'
-                }`}
-              >
-                ???? EN
-              </button>
-              <button
-                onClick={() => setLang('es')}
-                aria-label="Espa�ol" aria-pressed={lang === 'es'}
-                className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
-                  lang === 'es' ? 'bg-purple-600 text-white shadow-sm' : 'text-slate-600 hover:text-purple-600'
-                }`}
-              >
-                ???? ES
-              </button>
-            </div>
-
-            <a
-              href="tel:2034001232"
-              className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-md hover:opacity-95 transition-opacity"
-            >
-              <span>??</span>
-              <span>203-400-1232</span>
-            </a>
-          </div>
-        </div>
-
-        {/* MOBILE NAV SCROLLER */}
-        <div className="lg:hidden flex overflow-x-auto px-4 py-2 gap-2 bg-slate-50 border-t border-slate-100 scrollbar-none">
-          {[
-            { id: 'home', label: t.home, icon: '??' },
-            { id: 'schedule', label: t.schedule, icon: '?' },
-            { id: 'spaces', label: t.spaces, icon: '??' },
-            { id: 'programs', label: t.programs, icon: '??' },
-            { id: 'reviews', label: t.reviews, icon: '?' },
-            { id: 'play', label: t.play, icon: '??' },
-            { id: 'tour', label: t.tour, icon: '??' }
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setCurrentPage(tab.id)}
-                aria-current={currentPage === tab.id ? 'page' : undefined}
-              className={`whitespace-nowrap px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1 shrink-0 ${
-                currentPage === tab.id
-                  ? 'bg-pink-600 text-white shadow-sm'
-                  : 'bg-white text-slate-700 border border-slate-200'
-              }`}
-            >
-              <span>{tab.icon}</span>
-              <span>{tab.label}</span>
-            </button>
-          ))}
-        </div>
-      </header>
-
-      {/* MAIN CONTENT CONTAINER */}
-      <main id="main-content" ref={headingRef} tabIndex={-1} className="max-w-7xl mx-auto px-4 py-8" aria-label={t[currentPage] || t.home}>
-
-        {/* ================= PAGE 1: HOME ================= */}
-        {currentPage === 'home' && (
-          <div className="space-y-12 animate-fadeIn">
-            
-            {/* HERO SECTION */}
-            <section className="hero-garden">
-              <div>
-                <span className="eyebrow"><span className="eyebrow-dot" />{copy('LITTLE LEARNERS. BIG POSSIBILITIES.', 'PEQUE�OS EXPLORADORES. GRANDES POSIBILIDADES.')}</span>
-                <h1>{copy('Little moments.', 'Peque�os momentos.')}<br/><em>{copy('Bright beginnings.', 'Grandes comienzos.')}</em></h1>
-                <p className="hero-copy">{t.welcomeSub}</p>
-                <div className="hero-actions">
-                  <button className="clay-primary" onClick={() => setCurrentPage('tour')}>{t.scheduleTourBtn} <span aria-hidden="true">?</span></button>
-                  <button className="clay-secondary" onClick={() => setCurrentPage('play')}><span aria-hidden="true">?</span> {t.play}</button>
-                </div>
-                <div className="hero-note"><span>� {copy('Licensed home daycare', 'Guarder�a con licencia')}</span><span>? {copy('English & Spanish', 'Ingl�s y espa�ol')}</span></div>
-                <p className="text-xs text-slate-500 mt-3">Ms. Rosa Almazan � Trumbull, CT</p>
-              </div>
-              <div className="hero-scene" role="img" aria-label={copy('A friendly teddy bear with colorful alphabet blocks, a rainbow and a smiling sun', 'Un osito con bloques de colores, un arco�ris y un sol sonriente')}>
-                <div className="scene-rainbow" /><div className="scene-ground" />
-                <svg className="sun-friend" viewBox="0 0 100 100" aria-hidden="true"><g stroke="#e9bd59" strokeWidth="6" strokeLinecap="round">{[0,45,90,135,180,225,270,315].map(a=><path key={a} d="M50 5V12" transform={'rotate('+a+' 50 50)'}/>)}</g><circle cx="50" cy="50" r="30" fill="#f1ca69"/><ellipse cx="40" cy="47" rx="2.5" ry="4" fill="#765a34"/><ellipse cx="60" cy="47" rx="2.5" ry="4" fill="#765a34"/><path d="M41 58Q50 67 59 58" fill="none" stroke="#765a34" strokeWidth="2.5" strokeLinecap="round"/><circle cx="33" cy="55" r="4" fill="#eaa479"/><circle cx="67" cy="55" r="4" fill="#eaa479"/></svg>
-                <span className="scene-star a">?</span><span className="scene-star b">?</span>
-                <div className="toy-bear"><div className="bear-ear"/><div className="bear-ear right"/><div className="bear-body"/><div className="bear-head"><i className="bear-eye"/><i className="bear-eye right"/><span className="bear-nose"></span></div><div className="bear-foot"/><div className="bear-foot right"/></div>
-                <span className="toy-block a">A</span><span className="toy-block b">B</span><span className="toy-block c">C</span>
-                <span className="scene-label top">?? {copy('Room to grow', 'Espacio para crecer')}</span>
-                <span className="scene-label bottom">? {copy('A little home. A lot of love.', 'Un peque�o hogar. Mucho amor.')}</span>
-              </div>
-            </section>
-            <div className="trust-ribbon"><span>?? Bright Blessings Home Daycare</span><span>? {copy('4.5 � 8 Google reviews', '4.5 � 8 rese�as en Google')}</span><span>?? {copy('CT Care 4 Kids welcomed', 'Aceptamos CT Care 4 Kids')}</span><span>?? {copy('6 weeks - preschool', '6 semanas - preescolar')}</span></div>
-
-            {/* QUICK STATS GRID */}
-            <div className="space-y-4">
-              <div className="text-center">
-                <h2 className="text-2xl font-extrabold text-slate-800">{t.quickStatsTitle}</h2>
-                <p className="text-sm text-slate-500">{copy('State licensing & community trust', 'Licencia estatal y confianza de la comunidad')}</p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {[
-                  { title: t.stat1Title, desc: t.stat1Desc, icon: '??', color: 'border-pink-200 bg-pink-50/50' },
-                  { title: t.stat2Title, desc: t.stat2Desc, icon: '?', color: 'border-amber-200 bg-amber-50/50' },
-                  { title: t.stat3Title, desc: t.stat3Desc, icon: '??', color: 'border-purple-200 bg-purple-50/50' },
-                  { title: t.stat4Title, desc: t.stat4Desc, icon: '??', color: 'border-emerald-200 bg-emerald-50/50' }
-                ].map((stat, idx) => (
-                  <div key={idx} className={`p-6 rounded-3xl border shadow-sm ${stat.color} flex flex-col justify-between`}>
-                    <div className="text-3xl mb-4">{stat.icon}</div>
-                    <div>
-                      <h3 className="font-bold text-slate-800 text-lg mb-1">{stat.title}</h3>
-                      <p className="text-xs text-slate-600 leading-relaxed">{stat.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* FEATURED HIGHLIGHTS & QUICK NAV CARDS */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div 
-                onClick={() => setCurrentPage('spaces')}
-                role="button" tabIndex={0} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setCurrentPage('spaces'); } }}
-                className="bg-white p-6 rounded-3xl border border-pink-100 shadow-sm hover:shadow-md transition-all cursor-pointer group"
-              >
-                <div className="text-3xl mb-3 group-hover:scale-110 transition-transform">??</div>
-                <h3 className="text-lg font-bold text-slate-800 mb-2">{t.spaces}</h3>
-                <p className="text-xs text-slate-600 mb-4">{copy('Explore our indoor learning centers, cozy nap room, and fenced outdoor yard.', 'Explore nuestros centros de aprendizaje, la sala de siesta y el patio cercado.')}</p>
-                <span className="text-xs font-bold text-pink-600 group-hover:underline">{t.exploreSpacesBtn} </span>
-              </div>
-
-              <div 
-                onClick={() => setCurrentPage('programs')}
-                role="button" tabIndex={0} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setCurrentPage('programs'); } }}
-                className="bg-white p-6 rounded-3xl border border-purple-100 shadow-sm hover:shadow-md transition-all cursor-pointer group"
-              >
-                <div className="text-3xl mb-3 group-hover:scale-110 transition-transform">??</div>
-                <h3 className="text-lg font-bold text-slate-800 mb-2">{t.programs}</h3>
-                <p className="text-xs text-slate-600 mb-4">{copy('Infant ($350/wk) & Toddler/Preschool ($300/wk) rates with CT Care 4 Kids subsidy guides.', 'Beb�s ($350/semana) y ni�os peque�os/preescolar ($300/semana), con informaci�n de CT Care 4 Kids.')}</p>
-                <span className="text-xs font-bold text-purple-600 group-hover:underline">{t.checkRatesBtn} </span>
-              </div>
-
-              <div 
-                onClick={() => setCurrentPage('play')}
-                role="button" tabIndex={0} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setCurrentPage('play'); } }}
-                className="bg-white p-6 rounded-3xl border border-sky-100 shadow-sm hover:shadow-md transition-all cursor-pointer group"
-              >
-                <div className="text-3xl mb-3 group-hover:scale-110 transition-transform">??</div>
-                <h3 className="text-lg font-bold text-slate-800 mb-2">{t.playTitle}</h3>
-                <p className="text-xs text-slate-600 mb-4">{copy('Discover new words, find rainbow colors, and count building blocks together.', 'Descubran palabras, busquen colores del arco�ris y cuenten bloques juntos.')}</p>
-                <span className="text-xs font-bold text-sky-600 group-hover:underline">{t.play} </span>
-              </div>
-            </div>
-
-          </div>
-        )}
-
-        {/* ================= PAGE 2: SCHEDULE / HORARIO ================= */}
-        {currentPage === 'schedule' && (
-          <div className="space-y-8 animate-fadeIn">
-            <div className="text-center max-w-2xl mx-auto space-y-3">
-              <div className="inline-block bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-xs font-bold">
-                ? {copy('Our 20-step daily routine', 'Nuestra rutina diaria de 20 pasos')}
-              </div>
-              <h2 className="text-3xl font-extrabold text-slate-800">{t.scheduleTitle}</h2>
-              <p className="text-sm text-slate-600">{t.scheduleSub}</p>
-              
-              {/* CURRENT TIME BANNER */}
-              {currentTimeStr && (
-                <div className="inline-flex items-center gap-2 bg-purple-50 border border-purple-200 text-purple-700 px-4 py-1.5 rounded-full text-xs font-bold shadow-sm">
-                  <span>?? {copy('Trumbull time', 'Hora de Trumbull')}: {currentTimeStr}</span>
-                </div>
-              )}
-            </div>
-
-            {/* FILTER BUTTONS */}
-            <div className="flex flex-wrap justify-center gap-2">
-              {[
-                { id: 'all', label: t.filterAll },
-                { id: 'morning', label: t.filterMorning },
-                { id: 'afternoon', label: t.filterAfternoon }
-              ].map(cat => (
-                <button
-                  key={cat.id}
-                  onClick={() => setActiveCategory(cat.id)}
-                  className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${
-                    activeCategory === cat.id
-                      ? 'bg-pink-600 text-white shadow-md'
-                      : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
-                  }`}
-                >
-                  {cat.label}
-                </button>
-              ))}
-            </div>
-
-            {/* SCHEDULE LIST */}
-            <div className="max-w-3xl mx-auto space-y-3">
-              {scheduleItems
-                .filter(item => activeCategory === 'all' || item.cat === activeCategory)
-                .map((item, idx) => (
-                  <div key={idx} className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between gap-4 hover:border-pink-200 transition-colors">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-pink-50 text-xl flex items-center justify-center shrink-0">
-                        {item.icon}
-                      </div>
-                      <div>
-                        <span className="text-xs font-bold text-pink-600">{item.time}</span>
-                        <div className="text-sm font-semibold text-slate-800">{item.en}</div>
-                        <div className="text-xs text-slate-500 italic">{item.es}</div>
-                      </div>
-                    </div>
-                    <span className="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full font-medium shrink-0">
-                      {item.cat === 'morning' ? copy('?? Morning', '?? Ma�ana') : copy('?? Afternoon', '?? Tarde')}
-                    </span>
-                  </div>
-                ))}
-            </div>
-          </div>
-        )}
-
-        {/* ================= PAGE 3: OUR SPACES ================= */}
-        {currentPage === 'spaces' && (
-          <div className="space-y-8 animate-fadeIn">
-            <div className="text-center max-w-2xl mx-auto space-y-3">
-              <div className="inline-block bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-bold">
-                ?? {copy('A home for little adventures', 'Un hogar para peque�as aventuras')}
-              </div>
-              <h2 className="text-3xl font-extrabold text-slate-800">{t.spacesTitle}</h2>
-              <p className="text-sm text-slate-600">{t.spacesSub}</p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {spacesList.map((space, idx) => (
-                <div key={idx} className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-4 hover:shadow-md transition-all">
-                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl ${space.color}`}>
-                    {space.icon}
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-slate-800 text-lg">{lang === 'en' ? space.titleEn : space.titleEs}</h3>
-                    <p className="text-xs text-purple-600 font-medium mb-2">{lang === 'en' ? space.titleEs : space.titleEn}</p>
-                    <p className="text-xs text-slate-600 mb-2">{lang === 'en' ? space.descEn : space.descEs}</p>
-                    
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* ================= PAGE 4: PROGRAMS & RATES ================= */}
-        {currentPage === 'programs' && (
-          <div className="space-y-8 animate-fadeIn">
-            <div className="text-center max-w-2xl mx-auto space-y-3">
-              <div className="inline-block bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-bold">
-                ?? {copy('Tuition & subsidy guide', 'Gu�a de tarifas y subsidios')}
-              </div>
-              <h2 className="text-3xl font-extrabold text-slate-800">{t.programsTitle}</h2>
-              <p className="text-sm text-slate-600">{t.programsSub}</p>
-            </div>
-
-            {/* TUITION CARDS */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-              <div className="bg-white p-8 rounded-3xl border border-pink-200 shadow-sm space-y-4 flex flex-col justify-between">
-                <div>
-                  <div className="text-3xl mb-3">??</div>
-                  <h3 className="text-xl font-bold text-slate-800 mb-1">{t.infantTitle}</h3>
-                  <div className="text-2xl font-extrabold text-pink-600 mb-4">{t.infantRate}</div>
-                  <p className="text-xs text-slate-600 leading-relaxed mb-4">{t.infantDesc}</p>
-                </div>
-                <button 
-                  onClick={() => setCurrentPage('tour')}
-                  className="w-full bg-pink-600 text-white py-3 rounded-2xl font-bold text-sm shadow-md hover:bg-pink-700 transition-colors"
-                >
-                  {t.tour}
-                </button>
-              </div>
-
-              <div className="bg-white p-8 rounded-3xl border border-purple-200 shadow-sm space-y-4 flex flex-col justify-between">
-                <div>
-                  <div className="text-3xl mb-3">??</div>
-                  <h3 className="text-xl font-bold text-slate-800 mb-1">{t.toddlerTitle}</h3>
-                  <div className="text-2xl font-extrabold text-purple-600 mb-4">{t.toddlerRate}</div>
-                  <p className="text-xs text-slate-600 leading-relaxed mb-4">{t.toddlerDesc}</p>
-                </div>
-                <button 
-                  onClick={() => setCurrentPage('tour')}
-                  className="w-full bg-purple-600 text-white py-3 rounded-2xl font-bold text-sm shadow-md hover:bg-purple-700 transition-colors"
-                >
-                  {t.tour}
-                </button>
-              </div>
-            </div>
-
-            {/* CARE 4 KIDS BOX */}
-            <div className="max-w-4xl mx-auto bg-gradient-to-r from-emerald-500 to-teal-600 text-white p-8 rounded-3xl shadow-lg space-y-3">
-              <div className="flex items-center gap-3">
-                <span className="text-3xl">??</span>
-                <h3 className="text-xl font-bold">{t.subsidyBoxTitle}</h3>
-              </div>
-              <p className="text-sm text-emerald-50 leading-relaxed">{t.subsidyBoxDesc}</p>
-              <div className="pt-2">
-                <a 
-                  href="https://www.ct.com/oec/care4kids" 
-                  target="_blank" 
-                  rel="noreferrer" 
-                  className="inline-block bg-white text-emerald-700 px-6 py-2.5 rounded-xl font-bold text-xs shadow-sm hover:bg-emerald-50 transition-colors"
-                >
-                  {copy('Learn about Care 4 Kids', 'Conozca Care 4 Kids')} 
-                </a>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ================= PAGE 5: REVIEWS & MAP ================= */}
-        {currentPage === 'reviews' && (
-          <div className="space-y-8 animate-fadeIn">
-            <div className="text-center max-w-2xl mx-auto space-y-3">
-              <div className="inline-block bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-bold">
-                ? {copy('4.5 ? across 8 Google reviews', '4.5 ? en 8 rese�as de Google')}
-              </div>
-              <h2 className="text-3xl font-extrabold text-slate-800">{t.reviewsMapTitle}</h2>
-              <p className="text-sm text-slate-600">{t.reviewsMapSub}</p>
-            </div>
-
-            {/* MAP & LOCATION CARD */}
-            <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-4 max-w-4xl mx-auto">
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-slate-100">
-                <div>
-                  <h3 className="font-bold text-lg text-slate-800">Bright Blessings Home Daycare</h3>
-                  <p className="text-xs text-slate-500">{t.addressLabel}</p>
-                </div>
-                <a 
-                  href="https://maps.google.com/?q=82+Tait+Rd,+Trumbull,+CT+06611" 
-                  target="_blank" 
-                  rel="noreferrer"
-                  className="bg-pink-600 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-sm hover:bg-pink-700 transition-colors"
-                >
-                  {t.directionsBtn}
-                </a>
-              </div>
-
-              {/* EMBEDDED GOOGLE MAP */}
-              <div className="w-full h-80 rounded-2xl overflow-hidden border border-slate-200">
-                <iframe
-                  title={copy('Daycare location on Google Maps', 'Ubicaci�n de la guarder�a en Google Maps')}
-                  src="https://maps.google.com/maps?q=82%20Tait%20Rd%2C%20Trumbull%2C%20CT%2006611&output=embed"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen=""
-                  loading="lazy"
-                ></iframe>
-              </div>
-            </div>
-
-            {/* REVIEWS GRID */}
-            <div className="max-w-4xl mx-auto space-y-4">
-              <h3 className="text-xl font-extrabold text-slate-800">{t.reviewsHeading}</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {reviewsList.map((rev, idx) => (
-                  <div key={idx} className="bg-white p-6 rounded-3xl border border-amber-100 shadow-sm space-y-3 flex flex-col justify-between">
-                    <div>
-                      <div className="text-amber-500 text-sm mb-2">{rev.stars}</div>
-                      <p className="text-xs text-slate-700 leading-relaxed italic mb-4">"{lang === 'en' ? rev.text : ["�Ms. Rosa es incre�ble! Mi hija aprendi� mucho vocabulario en ingl�s y espa�ol, y el hogar es impecable y cari�oso.","Es una verdadera bendici�n encontrar Bright Blessings. Profesional, segura, y nuestro peque�o espera ir con entusiasmo cada ma�ana.","Horarios flexibles, una maravillosa �rea de juego al aire libre y un cuidado excepcional. �Recomiendo a Ms. Rosa a cualquier familia trabajadora!"][idx]}"</p>
-                    </div>
-                    <div className="flex justify-between items-center text-xs text-slate-500 pt-2 border-t border-slate-100">
-                      <span className="font-bold text-slate-800">{lang === 'en' ? rev.name : ["Opini�n de una familia","Familia local","Familia de Trumbull"][idx]}</span>
-                      <span>{copy(rev.date, 'Rese�a de Google')}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ================= PAGE 6: PLAY & LEARN ================= */}
-        {currentPage === 'play' && (
-          <div className="space-y-8 animate-fadeIn">
-            <div className="text-center max-w-2xl mx-auto space-y-3">
-              <div className="inline-block bg-sky-100 text-sky-700 px-3 py-1 rounded-full text-xs font-bold">
-                ?? {copy('The little discovery club', 'El club de peque�os exploradores')}
-              </div>
-              <h2 className="text-3xl font-extrabold text-slate-800">{t.playTitle}</h2>
-              <p className="text-sm text-slate-600">{t.playSub}</p>
-            </div>
-
-            <div className="flex flex-wrap justify-center gap-3">
-              <span className="eyebrow">?? {copy('Curiosity starts here', 'La curiosidad empieza aqu�')}</span>
-              <span className="eyebrow">?? {copy('Best enjoyed together', 'Mejor en compa��a')}</span>
-            </div>
-            <div className="flex justify-between flex-wrap gap-3 items-center max-w-5xl mx-auto">
-              <h3 className="text-2xl">{copy('Little words, two languages', 'Peque�as palabras, dos idiomas')}</h3>
-              <button className="clay-secondary" onClick={() => setRevealedWords([])}>{copy('Start again', 'Empezar de nuevo')} ?</button>
-            </div>
-            <p className="text-center text-sm" role="status">{copy('Words explored', 'Palabras descubiertas')}: {revealedWords.length} / {playCards.length}</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              {playCards.map((card, idx) => {
-                const revealed = revealedWords.includes(idx);
-                const words = card.en.split(' / ');
-                return <button key={idx} className="word-card" style={{'--card-color': ['#f9e8df','#fcf1cf','#e8f0df','#ece9f5','#e1efee','#f5e5e8'][idx]}} aria-pressed={revealed} onClick={() => setRevealedWords(prev => prev.includes(idx) ? prev.filter(i=>i!==idx) : [...prev,idx])}>
-                  <span className="word-icon" aria-hidden="true">{card.icon}</span>
-                  <strong>{revealed ? words[lang === 'en' ? 1 : 0] : words[lang === 'en' ? 0 : 1]}</strong>
-                  <small>{revealed ? (lang === 'en' ? card.descEn : card.descEs) : copy('Tap to discover the Spanish word', 'Toque para descubrir la palabra en ingl�s')}</small>
-                  {revealed && <small lang={lang === 'en' ? 'es' : 'en'}>{words[lang === 'en' ? 0 : 1]}  {words[lang === 'en' ? 1 : 0]}</small>}
-                  <span className="text-xs">{revealed ? copy('� Discovered! Tap to turn back', '� �Descubierta! Toque para volver') : copy('Let's explore! ?', '�Vamos a explorar! ?')}</span>
-                </button>;
-              })}
-            </div>
-            <div className="game-grid max-w-5xl mx-auto">
-              <section className="game-panel" aria-labelledby="color-title">
-                <span className="text-3xl" aria-hidden="true">???</span>
-                <h3 id="color-title">{copy('Rainbow color hunt', 'Busca colores del arco�ris')}</h3>
-                <p className="text-sm mt-2">{copy('Can you find', '�Puedes encontrar')} <strong>{copy(['coral','yellow','green','blue'][colorRound], ['el coral','el amarillo','el verde','el azul'][colorRound])}</strong>{copy('?', '?')}</p>
-                <div className="color-choices">
-                  {['#d56e59','#edc259','#79a17a','#6b9dad'].map((color,idx) => <button key={color} className="color-choice" style={{background:color}} aria-label={copy(['Coral','Yellow','Green','Blue'][idx],['Coral','Amarillo','Verde','Azul'][idx])} aria-pressed={colorAnswer === idx} onClick={() => setColorAnswer(idx)} />)}
-                </div>
-                <p className="game-status" role="status">{colorAnswer === null ? copy('Pick a crayon color above.', 'Elige un color de cray�n.') : colorAnswer === colorRound ? copy('Wonderful! You found it. ??', '�Muy bien! Lo encontraste. ??') : copy('Good exploring! Try another color.', '�Sigue explorando! Prueba otro color.')}</p>
-                <button className="clay-secondary" onClick={() => {setColorRound((colorRound+1)%4);setColorAnswer(null);}}>{copy('Next color', 'Siguiente color')} </button>
-              </section>
-              <section className="game-panel" aria-labelledby="count-title">
-                <span className="text-3xl" aria-hidden="true">??</span>
-                <h3 id="count-title">{copy('Count the little blocks', 'Cuenta los bloques')}</h3>
-                <p className="text-sm mt-2">{copy('How many blocks can you see?', '�Cu�ntos bloques puedes ver?')}</p>
-                <div className="count-blocks" role="img" aria-label={copy('Building blocks to count', 'Bloques para contar')}>{Array.from({length:blockCount},(_,i)=><span key={i} className="count-block" aria-hidden="true">?</span>)}</div>
-                <div className="number-choices">{[1,2,3,4,5].map(n=><button key={n} aria-label={copy('Choose '+n, 'Elegir '+n)} aria-pressed={countAnswer === n} onClick={()=>setCountAnswer(n)}>{n}</button>)}</div>
-                <p className="game-status mt-4" role="status">{countAnswer === null ? copy('Tap a number. Count together!', 'Toque un n�mero. �Cuenten juntos!') : countAnswer === blockCount ? copy('You did it! '+blockCount+' blocks! ??', '�Lo lograste! �'+blockCount+' bloques! ??') : copy('Let's count each block and try again.', 'Contemos cada bloque y probemos otra vez.')}</p>
-                <button className="clay-secondary" onClick={()=>{setBlockCount(blockCount%5+1);setCountAnswer(null);}}>{copy('More blocks', 'M�s bloques')} ?</button>
-              </section>
-            </div>
-          </div>
-        )}
-
-        {/* ================= PAGE 7: TOUR / CONTACT ================= */}
-        {currentPage === 'tour' && (
-          <div className="space-y-8 animate-fadeIn max-w-2xl mx-auto">
-            <div className="text-center space-y-3">
-              <div className="inline-block bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-xs font-bold">
-                ?? {t.tour}
-              </div>
-              <h2 className="text-3xl font-extrabold text-slate-800">{t.tourTitle}</h2>
-              <p className="text-sm text-slate-600">{t.tourSub}</p>
-            </div>
-
-            <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
-              {tourSubmitted ? (
-                <div className="text-center py-12 space-y-4">
-                  <div className="text-5xl">?</div>
-                  <h3 className="text-2xl font-bold text-slate-800">{t.tourSuccessTitle}</h3>
-                  <p className="text-sm text-slate-600">{t.tourSuccessMsg}</p>
-                  <button
-                    onClick={() => setTourSubmitted(false)}
-                    className="mt-4 bg-pink-600 text-white px-6 py-2.5 rounded-xl text-xs font-bold shadow-sm hover:bg-pink-700 transition-colors"
-                  >
-                    {copy('Edit / send another request', 'Editar / enviar otra solicitud')}
-                  </button>
-                </div>
-              ) : (
-                <form 
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    const lines = [t.nameLabel + ': ' + tourForm.name, t.emailLabel + ': ' + tourForm.email, t.phoneLabel + ': ' + tourForm.phone, t.dateLabel + ': ' + tourForm.date, t.notesLabel + ': ' + tourForm.notes];
-                    window.location.href = 'mailto:BrightBlessingshdc@gmail.com?subject=' + encodeURIComponent(copy('Daycare tour request', 'Solicitud de visita a la guarder�a')) + '&body=' + encodeURIComponent(lines.join('\n'));
-                    setTourSubmitted(true);
-                  }}
-                  className="space-y-4"
-                >
-                  <div>
-                    <label htmlFor="tour-name" className="block text-xs font-bold text-slate-700 mb-1">{t.nameLabel}</label>
-                    <input
-                      type="text"
-                      required
-                      id="tour-name" name="name" autoComplete="name" value={tourForm.name}
-                      onChange={(e) => setTourForm({...tourForm, name: e.target.value})}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-pink-500"
-                      placeholder={copy('e.g. Maria Rodriguez', 'p. ej. Mar�a Rodr�guez')}
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="tour-email" className="block text-xs font-bold text-slate-700 mb-1">{t.emailLabel}</label>
-                      <input
-                        type="email"
-                        required
-                        id="tour-email" name="email" autoComplete="email" value={tourForm.email}
-                        onChange={(e) => setTourForm({...tourForm, email: e.target.value})}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-pink-500"
-                        placeholder="maria@example.com"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="tour-phone" className="block text-xs font-bold text-slate-700 mb-1">{t.phoneLabel}</label>
-                      <input
-                        type="tel"
-                        required
-                        id="tour-phone" name="phone" autoComplete="tel" value={tourForm.phone}
-                        onChange={(e) => setTourForm({...tourForm, phone: e.target.value})}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-pink-500"
-                        placeholder="(203) 555-0199"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label htmlFor="tour-date" className="block text-xs font-bold text-slate-700 mb-1">{t.dateLabel}</label>
-                    <input
-                      type="date"
-                      min={new Date().toLocaleDateString('en-CA')}
-                      required
-                      id="tour-date" name="date"  value={tourForm.date}
-                      onChange={(e) => setTourForm({...tourForm, date: e.target.value})}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-pink-500"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="tour-notes" className="block text-xs font-bold text-slate-700 mb-1">{t.notesLabel}</label>
-                    <textarea
-                      rows={3}
-                      id="tour-notes" name="notes"  value={tourForm.notes}
-                      onChange={(e) => setTourForm({...tourForm, notes: e.target.value})}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-pink-500"
-                      placeholder={copy("Tell us your child's age and preferred visit time...", 'Cu�ntenos la edad de su hijo y la hora de visita que prefiere...')}
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white py-3.5 rounded-2xl font-bold text-sm shadow-md hover:opacity-95 transition-opacity"
-                  >
-                    {t.submitTour} ?
-                  </button>
-                  <p className="text-xs text-slate-500">{copy('Opens your email app. Please send the email to complete your request, or call Ms. Rosa.', 'Se abre su aplicaci�n de correo. Env�e el mensaje para completar la solicitud o llame a Ms. Rosa.')}</p>
-                </form>
-              )}
-            </div>
-
-            {/* DIRECT CONTACT CARD */}
-            <div className="bg-purple-50 border border-purple-200 p-6 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-4">
-              <div>
-                <h4 className="font-bold text-slate-800 text-sm">{copy('Need immediate assistance?', '�Necesita ayuda inmediata?')}</h4>
-                <p className="text-xs text-slate-600">{copy('Call Ms. Rosa directly or send an email anytime.', 'Llame directamente a Ms. Rosa o env�e un correo.')}</p>
-              </div>
-              <div className="flex gap-2">
-                <a href="tel:2034001232" className="bg-pink-600 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-sm">
-                  ?? 203-400-1232
-                </a>
-                <a href="mailto:BrightBlessingshdc@gmail.com" className="bg-purple-600 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-sm">
-                  ?? {t.emailUs}
-                </a>
-              </div>
-            </div>
-          </div>
-        )}
-
-      </main>
-
-      {/* FOOTER */}
-      <footer className="bg-slate-900 text-slate-300 py-12 mt-16 border-t border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-          <div className="space-y-3">
-            <h3 className="text-white font-bold text-lg">?? Bright Blessings Home Daycare</h3>
-            <p className="text-xs text-slate-400">{t.tagline}</p>
-            <p className="text-xs text-slate-400">{copy('Phone', 'Tel�fono')}: 203-400-1232  {copy('Email', 'Correo')}: BrightBlessingshdc@gmail.com</p>
-          </div>
-
-          <div className="space-y-2">
-            <h4 className="text-white font-bold text-sm">{copy('Explore with us', 'Explore con nosotros')}</h4>
-            <div className="flex flex-col gap-1 text-xs">
-              <button onClick={() => setCurrentPage('schedule')} className="hover:text-pink-400">{t.schedule}</button>
-              <button onClick={() => setCurrentPage('spaces')} className="hover:text-pink-400">{t.spaces}</button>
-              <button onClick={() => setCurrentPage('programs')} className="hover:text-pink-400">{t.programs}</button>
-              <button onClick={() => setCurrentPage('tour')} className="hover:text-pink-400">{t.tour}</button>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <h4 className="text-white font-bold text-sm">{copy('Hours & subsidies', 'Horarios y subsidios')}</h4>
-            <p className="text-xs text-slate-400">{copy('Regular hours: Monday - Friday 7:00 AM - 5:00 PM', 'Horario regular: lunes a viernes 7:00 AM - 5:00 PM')}</p>
-            <p className="text-xs text-slate-400">{copy('State licensed hours: 6:00 AM - 10:00 PM', 'Horario autorizado: 6:00 AM - 10:00 PM')}</p>
-            <p className="text-xs text-slate-400">{copy('CT Care 4 Kids subsidies welcomed', 'Aceptamos subsidios CT Care 4 Kids')}</p>
-          </div>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 pt-8 mt-8 border-t border-slate-800 text-center text-xs text-slate-500">
-          c {new Date().getFullYear()} Bright Blessings Home Daycare. {copy('All rights reserved.', 'Todos los derechos reservados.')}
-        </div>
-      </footer>
-
-    </div>
-  );
-}
-
-
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<App />);
-  </script>
+    const t = translations[lang];
+    const currentT = t;
+    const scheduleItems = [
+      { time: "7:30 AM", en: "Arrival / wash hands", es: "Llegada / Lavar manos", cat: "morning", icon: "\u{1F305}" },
+      { time: "7:45 AM \u2013 8:45 AM", en: "Freeplay", es: "Juego Libre", cat: "morning", icon: "\u{1F9F8}" },
+      { time: "8:45 AM \u2013 9:15 AM", en: "Breakfast", es: "Desayuno", cat: "morning", icon: "\u{1F963}" },
+      { time: "9:15 AM \u2013 9:30 AM", en: "Bathroom / wash hands", es: "Ba\xF1o / Lavar manos", cat: "morning", icon: "\u{1F9FC}" },
+      { time: "9:30 AM \u2013 9:45 AM", en: "Circle time", es: "C\xEDrculo", cat: "morning", icon: "\u2B55" },
+      { time: "9:45 AM \u2013 10:00 AM", en: "Story time", es: "Cuento", cat: "morning", icon: "\u{1F4DA}" },
+      { time: "10:00 AM \u2013 10:30 AM", en: "Music and Movement", es: "M\xFAsica y Movimiento", cat: "morning", icon: "\u{1F3B5}" },
+      { time: "10:30 AM \u2013 11:00 AM", en: "Centers", es: "Centros", cat: "morning", icon: "\u{1F9E9}" },
+      { time: "11:00 AM \u2013 12:00 PM", en: "Outdoor play (weather permitting)", es: "Juego al aire libre (dependiendo el clima)", cat: "morning", icon: "\u{1F333}" },
+      { time: "12:00 PM \u2013 12:05 PM", en: "Wash hands", es: "Lavar manos", cat: "afternoon", icon: "\u{1F4A7}" },
+      { time: "12:05 PM \u2013 12:15 PM", en: "Independent reading", es: "Lectura independiente", cat: "afternoon", icon: "\u{1F4D6}" },
+      { time: "12:15 PM \u2013 12:45 PM", en: "Lunch", es: "Almuerzo", cat: "afternoon", icon: "\u{1F96A}" },
+      { time: "12:45 PM \u2013 1:00 PM", en: "Bathroom", es: "Ba\xF1o", cat: "afternoon", icon: "\u{1F6BD}" },
+      { time: "1:00 PM \u2013 3:00 PM", en: "Naptime", es: "Siesta", cat: "afternoon", icon: "\u{1F4A4}" },
+      { time: "3:00 PM \u2013 3:15 PM", en: "Clean up cots", es: "Limpiar camitas", cat: "afternoon", icon: "\u{1F6CF}\uFE0F" },
+      { time: "3:15 PM \u2013 3:45 PM", en: "Afternoon Snack", es: "Merienda", cat: "afternoon", icon: "\u{1F34E}" },
+      { time: "3:45 PM \u2013 4:00 PM", en: "Bathroom", es: "Ba\xF1o", cat: "afternoon", icon: "\u{1F6BF}" },
+      { time: "4:00 PM \u2013 4:30 PM", en: "Walk (weather permitting)", es: "Caminar (dependiendo el clima)", cat: "afternoon", icon: "\u{1F6B6}\u200D\u2640\uFE0F" },
+      { time: "4:30 PM \u2013 5:00 PM", en: "Outdoor play (weather permitting)", es: "Juego al aire libre (dependiendo el clima)", cat: "afternoon", icon: "\u2600\uFE0F" },
+      { time: "5:00 PM", en: "Dismissal", es: "Despedida", cat: "afternoon", icon: "\u{1F44B}" }
+    ];
+    const spacesList = [
+      { titleEn: "Circle & Story Nook", titleEs: "Rinc\xF3n de C\xEDrculo y Cuentos", descEn: "A cozy, sunlit rug area with soft cushions where children gather for morning circle, bilingual stories, and songs.", descEs: "Un \xE1rea de alfombra acogedora y luminosa con cojines suaves donde los ni\xF1os se re\xFAnen para cuentos y canciones.", icon: "\u{1F4D6}", color: "bg-pink-100 text-pink-700" },
+      { titleEn: "Learning & Art Centers", titleEs: "Centros de Aprendizaje y Arte", descEn: "Hands-on discovery stations featuring blocks, puzzles, fine motor toys, and creative painting easels.", descEs: "Estaciones de descubrimiento pr\xE1ctico con bloques, rompecabezas, juguetes de motricidad y caballetes de arte.", icon: "\u{1F3A8}", color: "bg-blue-100 text-blue-700" },
+      { titleEn: "Sunny Dining & Hygiene Station", titleEs: "Estaci\xF3n de Comedor e Higiene", descEn: "Clean, sanitized child-sized seating for nutritious breakfasts, lunches, and snacks, paired with accessible wash sinks.", descEs: "Asientos limpios y desinfectados para nutritivos desayunos, almuerzos y meriendas.", icon: "\u{1F34E}", color: "bg-amber-100 text-amber-700" },
+      { titleEn: "Cozy Naptime Room", titleEs: "Sala de Siesta Acogedora", descEn: "A quiet, peaceful climate-controlled space with individual sanitized sleeping cots and gentle lullabies.", descEs: "Un espacio tranquilo con cunas individuales sanitizadas y suaves canciones de cuna.", icon: "\u{1F4A4}", color: "bg-purple-100 text-purple-700" },
+      { titleEn: "Safe Fenced Outdoor Yard", titleEs: "Patio Exterior Seguro con Cerca", descEn: "A fully fenced grassy outdoor play area for daily walks, fresh air games, and motor skill development in Trumbull.", descEs: "Un \xE1rea de juego exterior totalmente cercada para caminatas diarias y juegos al aire libre.", icon: "\u{1F333}", color: "bg-emerald-100 text-emerald-700" }
+    ];
+    const reviewsList = [
+      { name: "Parent Review", stars: "\u2605\u2605\u2605\u2605\u2605", text: "Ms. Rosa is incredible! My daughter learned so much vocabulary in both English and Spanish, and the home is spotless and loving.", date: "Google Review" },
+      { name: "Local Family", stars: "\u2605\u2605\u2605\u2605\u2605", text: "Truly a blessing to find Bright Blessings. Professional, safe, and our toddler looks forward to going every single morning.", date: "Google Review" },
+      { name: "Trumbull Parent", stars: "\u2605\u2605\u2605\u2605\u2605", text: "Flexible hours, wonderful backyard play area, and exceptional care. Highly recommend Ms. Rosa to any working parent!", date: "Google Review" }
+    ];
+    const playCards = [
+      { en: "Rainbow / Arco\xEDris", descEn: "Colors in the sky after the rain!", descEs: "\xA1Colores en el cielo despu\xE9s de la lluvia!", icon: "\u{1F308}", time: "Morning Circle" },
+      { en: "Sunshine / Sol", descEn: "Warm light for outdoor play!", descEs: "\xA1Luz c\xE1lida para jugar afuera!", icon: "\u2600\uFE0F", time: "Outdoor Play" },
+      { en: "Apple / Manzana", descEn: "A healthy snack to share with friends.", descEs: "Un bocadillo saludable para compartir.", icon: "\u{1F34E}", time: "Afternoon Snack" },
+      { en: "Book / Libro", descEn: "Stories that spark imagination.", descEs: "Cuentos que encienden la imaginaci\xF3n.", icon: "\u{1F4DA}", time: "Story Time" },
+      { en: "Music / M\xFAsica", descEn: "Singing and dancing together!", descEs: "\xA1Cantar y bailar juntos!", icon: "\u{1F3B5}", time: "Music & Movement" },
+      { en: "Friends / Amigos", descEn: "Learning to share and play kindly.", descEs: "Aprendiendo a compartir y jugar con cari\xF1o.", icon: "\u{1F9F8}", time: "Freeplay" }
+    ];
+    return /* @__PURE__ */ React.createElement("div", { className: "site-shell min-h-screen text-slate-800 selection:bg-pink-200" }, /* @__PURE__ */ React.createElement("a", { href: "#main-content", className: "skip-link" }, copy("Skip to content", "Saltar al contenido")), /* @__PURE__ */ React.createElement("div", { className: "sky-playground", "aria-hidden": "true" }, /* @__PURE__ */ React.createElement("div", { className: "cloud one" }), /* @__PURE__ */ React.createElement("div", { className: "cloud two" }), [0, 1, 2, 3, 4, 5].map((i) => /* @__PURE__ */ React.createElement("span", { key: i, className: "bubble", style: { "--size": 24 + i * 9 + "px", "--left": 4 + i * 18 + "%", "--duration": 22 + i * 4 + "s", "--delay": -i * 7 + "s" } }))), /* @__PURE__ */ React.createElement("div", { className: "rainbow-strip" }), /* @__PURE__ */ React.createElement("header", { className: "sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-pink-100" }, /* @__PURE__ */ React.createElement("div", { className: "max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4" }, /* @__PURE__ */ React.createElement("button", { onClick: () => setCurrentPage("home"), className: "flex items-center gap-3 text-left group" }, /* @__PURE__ */ React.createElement("div", { className: "w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform" }, /* @__PURE__ */ React.createElement("span", { className: "text-2xl" }, "\u{1F308}")), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h1", { className: "text-xl font-bold bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 bg-clip-text text-transparent" }, "Bright Blessings"), /* @__PURE__ */ React.createElement("p", { className: "text-xs font-medium text-slate-500" }, copy("Home Daycare", "Guarder\xEDa en el hogar"), " \u2022 Trumbull, CT"))), /* @__PURE__ */ React.createElement("nav", { className: "hidden lg:flex items-center gap-1 bg-slate-100/80 p-1.5 rounded-full border border-slate-200/60" }, [
+      { id: "home", label: t.home, icon: "\u{1F3E0}" },
+      { id: "schedule", label: t.schedule, icon: "\u23F0" },
+      { id: "spaces", label: t.spaces, icon: "\u{1F3E1}" },
+      { id: "programs", label: t.programs, icon: "\u{1F392}" },
+      { id: "reviews", label: t.reviews, icon: "\u2B50" },
+      { id: "play", label: t.play, icon: "\u{1F3A8}" },
+      { id: "tour", label: t.tour, icon: "\u{1F4C5}" }
+    ].map((tab) => /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        key: tab.id,
+        onClick: () => setCurrentPage(tab.id),
+        "aria-current": currentPage === tab.id ? "page" : void 0,
+        className: `px-4 py-2 rounded-full text-sm font-semibold transition-all flex items-center gap-1.5 ${currentPage === tab.id ? "bg-white text-pink-600 shadow-sm" : "text-slate-600 hover:text-pink-600 hover:bg-white/50"}`
+      },
+      /* @__PURE__ */ React.createElement("span", null, tab.icon),
+      /* @__PURE__ */ React.createElement("span", null, tab.label)
+    ))), /* @__PURE__ */ React.createElement("div", { className: "flex items-center gap-3" }, /* @__PURE__ */ React.createElement("button", { className: "motion-control", onClick: () => setMotionPaused(!motionPaused), "aria-pressed": motionPaused, "aria-label": motionPaused ? copy("Resume animations", "Reanudar animaciones") : copy("Pause animations", "Pausar animaciones"), title: motionPaused ? copy("Resume animations", "Reanudar animaciones") : copy("Pause animations", "Pausar animaciones") }, motionPaused ? "\u25B7" : "\u2161"), /* @__PURE__ */ React.createElement("div", { className: "flex bg-slate-100 p-1 rounded-full border border-slate-200 shadow-inner" }, /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        onClick: () => setLang("en"),
+        "aria-label": "English",
+        "aria-pressed": lang === "en",
+        className: `px-3 py-1 rounded-full text-xs font-bold transition-all ${lang === "en" ? "bg-pink-500 text-white shadow-sm" : "text-slate-600 hover:text-pink-600"}`
+      },
+      "\u{1F1FA}\u{1F1F8} EN"
+    ), /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        onClick: () => setLang("es"),
+        "aria-label": "Espa\xF1ol",
+        "aria-pressed": lang === "es",
+        className: `px-3 py-1 rounded-full text-xs font-bold transition-all ${lang === "es" ? "bg-purple-600 text-white shadow-sm" : "text-slate-600 hover:text-purple-600"}`
+      },
+      "\u{1F1EA}\u{1F1F8} ES"
+    )), /* @__PURE__ */ React.createElement(
+      "a",
+      {
+        href: "tel:2034001232",
+        className: "hidden sm:flex items-center gap-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-md hover:opacity-95 transition-opacity"
+      },
+      /* @__PURE__ */ React.createElement("span", null, "\u{1F4DE}"),
+      /* @__PURE__ */ React.createElement("span", null, "203-400-1232")
+    ))), /* @__PURE__ */ React.createElement("div", { className: "lg:hidden flex overflow-x-auto px-4 py-2 gap-2 bg-slate-50 border-t border-slate-100 scrollbar-none" }, [
+      { id: "home", label: t.home, icon: "\u{1F3E0}" },
+      { id: "schedule", label: t.schedule, icon: "\u23F0" },
+      { id: "spaces", label: t.spaces, icon: "\u{1F3E1}" },
+      { id: "programs", label: t.programs, icon: "\u{1F392}" },
+      { id: "reviews", label: t.reviews, icon: "\u2B50" },
+      { id: "play", label: t.play, icon: "\u{1F3A8}" },
+      { id: "tour", label: t.tour, icon: "\u{1F4C5}" }
+    ].map((tab) => /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        key: tab.id,
+        onClick: () => setCurrentPage(tab.id),
+        "aria-current": currentPage === tab.id ? "page" : void 0,
+        className: `whitespace-nowrap px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1 shrink-0 ${currentPage === tab.id ? "bg-pink-600 text-white shadow-sm" : "bg-white text-slate-700 border border-slate-200"}`
+      },
+      /* @__PURE__ */ React.createElement("span", null, tab.icon),
+      /* @__PURE__ */ React.createElement("span", null, tab.label)
+    )))), /* @__PURE__ */ React.createElement("main", { id: "main-content", ref: headingRef, tabIndex: -1, className: "max-w-7xl mx-auto px-4 py-8", "aria-label": t[currentPage] || t.home }, currentPage === "home" && /* @__PURE__ */ React.createElement("div", { className: "space-y-12 animate-fadeIn" }, /* @__PURE__ */ React.createElement("section", { className: "hero-garden" }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("span", { className: "eyebrow" }, /* @__PURE__ */ React.createElement("span", { className: "eyebrow-dot" }), copy("LITTLE LEARNERS. BIG POSSIBILITIES.", "PEQUE\xD1OS EXPLORADORES. GRANDES POSIBILIDADES.")), /* @__PURE__ */ React.createElement("h1", null, copy("Little moments.", "Peque\xF1os momentos."), /* @__PURE__ */ React.createElement("br", null), /* @__PURE__ */ React.createElement("em", null, copy("Bright beginnings.", "Grandes comienzos."))), /* @__PURE__ */ React.createElement("p", { className: "hero-copy" }, t.welcomeSub), /* @__PURE__ */ React.createElement("div", { className: "hero-actions" }, /* @__PURE__ */ React.createElement("button", { className: "clay-primary", onClick: () => setCurrentPage("tour") }, t.scheduleTourBtn, " ", /* @__PURE__ */ React.createElement("span", { "aria-hidden": "true" }, "\u2197")), /* @__PURE__ */ React.createElement("button", { className: "clay-secondary", onClick: () => setCurrentPage("play") }, /* @__PURE__ */ React.createElement("span", { "aria-hidden": "true" }, "\u273F"), " ", t.play)), /* @__PURE__ */ React.createElement("div", { className: "hero-note" }, /* @__PURE__ */ React.createElement("span", null, "\u2713 ", copy("Licensed home daycare", "Guarder\xEDa con licencia")), /* @__PURE__ */ React.createElement("span", null, "\u2661 ", copy("English & Spanish", "Ingl\xE9s y espa\xF1ol"))), /* @__PURE__ */ React.createElement("p", { className: "text-xs text-slate-500 mt-3" }, "Ms. Rosa Almazan \xB7 Trumbull, CT")), /* @__PURE__ */ React.createElement("div", { className: "hero-scene", role: "img", "aria-label": copy("A friendly teddy bear with colorful alphabet blocks, a rainbow and a smiling sun", "Un osito con bloques de colores, un arco\xEDris y un sol sonriente") }, /* @__PURE__ */ React.createElement("div", { className: "scene-rainbow" }), /* @__PURE__ */ React.createElement("div", { className: "scene-ground" }), /* @__PURE__ */ React.createElement("svg", { className: "sun-friend", viewBox: "0 0 100 100", "aria-hidden": "true" }, /* @__PURE__ */ React.createElement("g", { stroke: "#e9bd59", strokeWidth: "6", strokeLinecap: "round" }, [0, 45, 90, 135, 180, 225, 270, 315].map((a) => /* @__PURE__ */ React.createElement("path", { key: a, d: "M50 5V12", transform: "rotate(" + a + " 50 50)" }))), /* @__PURE__ */ React.createElement("circle", { cx: "50", cy: "50", r: "30", fill: "#f1ca69" }), /* @__PURE__ */ React.createElement("ellipse", { cx: "40", cy: "47", rx: "2.5", ry: "4", fill: "#765a34" }), /* @__PURE__ */ React.createElement("ellipse", { cx: "60", cy: "47", rx: "2.5", ry: "4", fill: "#765a34" }), /* @__PURE__ */ React.createElement("path", { d: "M41 58Q50 67 59 58", fill: "none", stroke: "#765a34", strokeWidth: "2.5", strokeLinecap: "round" }), /* @__PURE__ */ React.createElement("circle", { cx: "33", cy: "55", r: "4", fill: "#eaa479" }), /* @__PURE__ */ React.createElement("circle", { cx: "67", cy: "55", r: "4", fill: "#eaa479" })), /* @__PURE__ */ React.createElement("span", { className: "scene-star a" }, "\u2B50"), /* @__PURE__ */ React.createElement("span", { className: "scene-star b" }, "\u2726"), /* @__PURE__ */ React.createElement("div", { className: "toy-bear" }, /* @__PURE__ */ React.createElement("div", { className: "bear-ear" }), /* @__PURE__ */ React.createElement("div", { className: "bear-ear right" }), /* @__PURE__ */ React.createElement("div", { className: "bear-body" }), /* @__PURE__ */ React.createElement("div", { className: "bear-head" }, /* @__PURE__ */ React.createElement("i", { className: "bear-eye" }), /* @__PURE__ */ React.createElement("i", { className: "bear-eye right" }), /* @__PURE__ */ React.createElement("span", { className: "bear-nose" }, "\u2022")), /* @__PURE__ */ React.createElement("div", { className: "bear-foot" }), /* @__PURE__ */ React.createElement("div", { className: "bear-foot right" })), /* @__PURE__ */ React.createElement("span", { className: "toy-block a" }, "A"), /* @__PURE__ */ React.createElement("span", { className: "toy-block b" }, "B"), /* @__PURE__ */ React.createElement("span", { className: "toy-block c" }, "C"), /* @__PURE__ */ React.createElement("span", { className: "scene-label top" }, "\u{1F331} ", copy("Room to grow", "Espacio para crecer")), /* @__PURE__ */ React.createElement("span", { className: "scene-label bottom" }, "\u2661 ", copy("A little home. A lot of love.", "Un peque\xF1o hogar. Mucho amor.")))), /* @__PURE__ */ React.createElement("div", { className: "trust-ribbon" }, /* @__PURE__ */ React.createElement("span", null, "\u{1F308} Bright Blessings Home Daycare"), /* @__PURE__ */ React.createElement("span", null, "\u2B50 ", copy("4.5 \xB7 8 Google reviews", "4.5 \xB7 8 rese\xF1as en Google")), /* @__PURE__ */ React.createElement("span", null, "\u{1F33F} ", copy("CT Care 4 Kids welcomed", "Aceptamos CT Care 4 Kids")), /* @__PURE__ */ React.createElement("span", null, "\u{1F9F8} ", copy("6 weeks \u2013 preschool", "6 semanas \u2013 preescolar"))), /* @__PURE__ */ React.createElement("div", { className: "space-y-4" }, /* @__PURE__ */ React.createElement("div", { className: "text-center" }, /* @__PURE__ */ React.createElement("h2", { className: "text-2xl font-extrabold text-slate-800" }, t.quickStatsTitle), /* @__PURE__ */ React.createElement("p", { className: "text-sm text-slate-500" }, copy("State licensing & community trust", "Licencia estatal y confianza de la comunidad"))), /* @__PURE__ */ React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" }, [
+      { title: t.stat1Title, desc: t.stat1Desc, icon: "\u{1F9F8}", color: "border-pink-200 bg-pink-50/50" },
+      { title: t.stat2Title, desc: t.stat2Desc, icon: "\u2B50", color: "border-amber-200 bg-amber-50/50" },
+      { title: t.stat3Title, desc: t.stat3Desc, icon: "\u{1F552}", color: "border-purple-200 bg-purple-50/50" },
+      { title: t.stat4Title, desc: t.stat4Desc, icon: "\u{1F4A1}", color: "border-emerald-200 bg-emerald-50/50" }
+    ].map((stat, idx) => /* @__PURE__ */ React.createElement("div", { key: idx, className: `p-6 rounded-3xl border shadow-sm ${stat.color} flex flex-col justify-between` }, /* @__PURE__ */ React.createElement("div", { className: "text-3xl mb-4" }, stat.icon), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h3", { className: "font-bold text-slate-800 text-lg mb-1" }, stat.title), /* @__PURE__ */ React.createElement("p", { className: "text-xs text-slate-600 leading-relaxed" }, stat.desc)))))), /* @__PURE__ */ React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-6" }, /* @__PURE__ */ React.createElement(
+      "div",
+      {
+        onClick: () => setCurrentPage("spaces"),
+        role: "button",
+        tabIndex: 0,
+        onKeyDown: (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setCurrentPage("spaces");
+          }
+        },
+        className: "bg-white p-6 rounded-3xl border border-pink-100 shadow-sm hover:shadow-md transition-all cursor-pointer group"
+      },
+      /* @__PURE__ */ React.createElement("div", { className: "text-3xl mb-3 group-hover:scale-110 transition-transform" }, "\u{1F3E1}"),
+      /* @__PURE__ */ React.createElement("h3", { className: "text-lg font-bold text-slate-800 mb-2" }, t.spaces),
+      /* @__PURE__ */ React.createElement("p", { className: "text-xs text-slate-600 mb-4" }, copy("Explore our indoor learning centers, cozy nap room, and fenced outdoor yard.", "Explore nuestros centros de aprendizaje, la sala de siesta y el patio cercado.")),
+      /* @__PURE__ */ React.createElement("span", { className: "text-xs font-bold text-pink-600 group-hover:underline" }, t.exploreSpacesBtn, " \u2192")
+    ), /* @__PURE__ */ React.createElement(
+      "div",
+      {
+        onClick: () => setCurrentPage("programs"),
+        role: "button",
+        tabIndex: 0,
+        onKeyDown: (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setCurrentPage("programs");
+          }
+        },
+        className: "bg-white p-6 rounded-3xl border border-purple-100 shadow-sm hover:shadow-md transition-all cursor-pointer group"
+      },
+      /* @__PURE__ */ React.createElement("div", { className: "text-3xl mb-3 group-hover:scale-110 transition-transform" }, "\u{1F392}"),
+      /* @__PURE__ */ React.createElement("h3", { className: "text-lg font-bold text-slate-800 mb-2" }, t.programs),
+      /* @__PURE__ */ React.createElement("p", { className: "text-xs text-slate-600 mb-4" }, copy("Infant ($350/wk) & Toddler/Preschool ($300/wk) rates with CT Care 4 Kids subsidy guides.", "Beb\xE9s ($350/semana) y ni\xF1os peque\xF1os/preescolar ($300/semana), con informaci\xF3n de CT Care 4 Kids.")),
+      /* @__PURE__ */ React.createElement("span", { className: "text-xs font-bold text-purple-600 group-hover:underline" }, t.checkRatesBtn, " \u2192")
+    ), /* @__PURE__ */ React.createElement(
+      "div",
+      {
+        onClick: () => setCurrentPage("play"),
+        role: "button",
+        tabIndex: 0,
+        onKeyDown: (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setCurrentPage("play");
+          }
+        },
+        className: "bg-white p-6 rounded-3xl border border-sky-100 shadow-sm hover:shadow-md transition-all cursor-pointer group"
+      },
+      /* @__PURE__ */ React.createElement("div", { className: "text-3xl mb-3 group-hover:scale-110 transition-transform" }, "\u{1F3A8}"),
+      /* @__PURE__ */ React.createElement("h3", { className: "text-lg font-bold text-slate-800 mb-2" }, t.playTitle),
+      /* @__PURE__ */ React.createElement("p", { className: "text-xs text-slate-600 mb-4" }, copy("Discover new words, find rainbow colors, and count building blocks together.", "Descubran palabras, busquen colores del arco\xEDris y cuenten bloques juntos.")),
+      /* @__PURE__ */ React.createElement("span", { className: "text-xs font-bold text-sky-600 group-hover:underline" }, t.play, " \u2192")
+    ))), currentPage === "schedule" && /* @__PURE__ */ React.createElement("div", { className: "space-y-8 animate-fadeIn" }, /* @__PURE__ */ React.createElement("div", { className: "text-center max-w-2xl mx-auto space-y-3" }, /* @__PURE__ */ React.createElement("div", { className: "inline-block bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-xs font-bold" }, "\u23F0 ", copy("Our 20-step daily routine", "Nuestra rutina diaria de 20 pasos")), /* @__PURE__ */ React.createElement("h2", { className: "text-3xl font-extrabold text-slate-800" }, t.scheduleTitle), /* @__PURE__ */ React.createElement("p", { className: "text-sm text-slate-600" }, t.scheduleSub), currentTimeStr && /* @__PURE__ */ React.createElement("div", { className: "inline-flex items-center gap-2 bg-purple-50 border border-purple-200 text-purple-700 px-4 py-1.5 rounded-full text-xs font-bold shadow-sm" }, /* @__PURE__ */ React.createElement("span", null, "\u{1F7E2} ", copy("Trumbull time", "Hora de Trumbull"), ": ", currentTimeStr))), /* @__PURE__ */ React.createElement("div", { className: "flex flex-wrap justify-center gap-2" }, [
+      { id: "all", label: t.filterAll },
+      { id: "morning", label: t.filterMorning },
+      { id: "afternoon", label: t.filterAfternoon }
+    ].map((cat) => /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        key: cat.id,
+        onClick: () => setActiveCategory(cat.id),
+        className: `px-4 py-2 rounded-full text-xs font-bold transition-all ${activeCategory === cat.id ? "bg-pink-600 text-white shadow-md" : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50"}`
+      },
+      cat.label
+    ))), /* @__PURE__ */ React.createElement("div", { className: "max-w-3xl mx-auto space-y-3" }, scheduleItems.filter((item) => activeCategory === "all" || item.cat === activeCategory).map((item, idx) => /* @__PURE__ */ React.createElement("div", { key: idx, className: "bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between gap-4 hover:border-pink-200 transition-colors" }, /* @__PURE__ */ React.createElement("div", { className: "flex items-center gap-3" }, /* @__PURE__ */ React.createElement("div", { className: "w-10 h-10 rounded-xl bg-pink-50 text-xl flex items-center justify-center shrink-0" }, item.icon), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("span", { className: "text-xs font-bold text-pink-600" }, item.time), /* @__PURE__ */ React.createElement("div", { className: "text-sm font-semibold text-slate-800" }, item.en), /* @__PURE__ */ React.createElement("div", { className: "text-xs text-slate-500 italic" }, item.es))), /* @__PURE__ */ React.createElement("span", { className: "text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full font-medium shrink-0" }, item.cat === "morning" ? copy("\u2600\uFE0F Morning", "\u2600\uFE0F Ma\xF1ana") : copy("\u{1F319} Afternoon", "\u{1F319} Tarde")))))), currentPage === "spaces" && /* @__PURE__ */ React.createElement("div", { className: "space-y-8 animate-fadeIn" }, /* @__PURE__ */ React.createElement("div", { className: "text-center max-w-2xl mx-auto space-y-3" }, /* @__PURE__ */ React.createElement("div", { className: "inline-block bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-bold" }, "\u{1F3E1} ", copy("A home for little adventures", "Un hogar para peque\xF1as aventuras")), /* @__PURE__ */ React.createElement("h2", { className: "text-3xl font-extrabold text-slate-800" }, t.spacesTitle), /* @__PURE__ */ React.createElement("p", { className: "text-sm text-slate-600" }, t.spacesSub)), /* @__PURE__ */ React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" }, spacesList.map((space, idx) => /* @__PURE__ */ React.createElement("div", { key: idx, className: "bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-4 hover:shadow-md transition-all" }, /* @__PURE__ */ React.createElement("div", { className: `w-12 h-12 rounded-2xl flex items-center justify-center text-2xl ${space.color}` }, space.icon), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h3", { className: "font-bold text-slate-800 text-lg" }, lang === "en" ? space.titleEn : space.titleEs), /* @__PURE__ */ React.createElement("p", { className: "text-xs text-purple-600 font-medium mb-2" }, lang === "en" ? space.titleEs : space.titleEn), /* @__PURE__ */ React.createElement("p", { className: "text-xs text-slate-600 mb-2" }, lang === "en" ? space.descEn : space.descEs)))))), currentPage === "programs" && /* @__PURE__ */ React.createElement("div", { className: "space-y-8 animate-fadeIn" }, /* @__PURE__ */ React.createElement("div", { className: "text-center max-w-2xl mx-auto space-y-3" }, /* @__PURE__ */ React.createElement("div", { className: "inline-block bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-bold" }, "\u{1F392} ", copy("Tuition & subsidy guide", "Gu\xEDa de tarifas y subsidios")), /* @__PURE__ */ React.createElement("h2", { className: "text-3xl font-extrabold text-slate-800" }, t.programsTitle), /* @__PURE__ */ React.createElement("p", { className: "text-sm text-slate-600" }, t.programsSub)), /* @__PURE__ */ React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto" }, /* @__PURE__ */ React.createElement("div", { className: "bg-white p-8 rounded-3xl border border-pink-200 shadow-sm space-y-4 flex flex-col justify-between" }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { className: "text-3xl mb-3" }, "\u{1F476}"), /* @__PURE__ */ React.createElement("h3", { className: "text-xl font-bold text-slate-800 mb-1" }, t.infantTitle), /* @__PURE__ */ React.createElement("div", { className: "text-2xl font-extrabold text-pink-600 mb-4" }, t.infantRate), /* @__PURE__ */ React.createElement("p", { className: "text-xs text-slate-600 leading-relaxed mb-4" }, t.infantDesc)), /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        onClick: () => setCurrentPage("tour"),
+        className: "w-full bg-pink-600 text-white py-3 rounded-2xl font-bold text-sm shadow-md hover:bg-pink-700 transition-colors"
+      },
+      t.tour
+    )), /* @__PURE__ */ React.createElement("div", { className: "bg-white p-8 rounded-3xl border border-purple-200 shadow-sm space-y-4 flex flex-col justify-between" }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { className: "text-3xl mb-3" }, "\u{1F9D2}"), /* @__PURE__ */ React.createElement("h3", { className: "text-xl font-bold text-slate-800 mb-1" }, t.toddlerTitle), /* @__PURE__ */ React.createElement("div", { className: "text-2xl font-extrabold text-purple-600 mb-4" }, t.toddlerRate), /* @__PURE__ */ React.createElement("p", { className: "text-xs text-slate-600 leading-relaxed mb-4" }, t.toddlerDesc)), /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        onClick: () => setCurrentPage("tour"),
+        className: "w-full bg-purple-600 text-white py-3 rounded-2xl font-bold text-sm shadow-md hover:bg-purple-700 transition-colors"
+      },
+      t.tour
+    ))), /* @__PURE__ */ React.createElement("div", { className: "max-w-4xl mx-auto bg-gradient-to-r from-emerald-500 to-teal-600 text-white p-8 rounded-3xl shadow-lg space-y-3" }, /* @__PURE__ */ React.createElement("div", { className: "flex items-center gap-3" }, /* @__PURE__ */ React.createElement("span", { className: "text-3xl" }, "\u{1F4A1}"), /* @__PURE__ */ React.createElement("h3", { className: "text-xl font-bold" }, t.subsidyBoxTitle)), /* @__PURE__ */ React.createElement("p", { className: "text-sm text-emerald-50 leading-relaxed" }, t.subsidyBoxDesc), /* @__PURE__ */ React.createElement("div", { className: "pt-2" }, /* @__PURE__ */ React.createElement(
+      "a",
+      {
+        href: "https://www.ct.com/oec/care4kids",
+        target: "_blank",
+        rel: "noreferrer",
+        className: "inline-block bg-white text-emerald-700 px-6 py-2.5 rounded-xl font-bold text-xs shadow-sm hover:bg-emerald-50 transition-colors"
+      },
+      copy("Learn about Care 4 Kids", "Conozca Care 4 Kids"),
+      " \u2192"
+    )))), currentPage === "reviews" && /* @__PURE__ */ React.createElement("div", { className: "space-y-8 animate-fadeIn" }, /* @__PURE__ */ React.createElement("div", { className: "text-center max-w-2xl mx-auto space-y-3" }, /* @__PURE__ */ React.createElement("div", { className: "inline-block bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-bold" }, "\u2B50 ", copy("4.5 \u2605 across 8 Google reviews", "4.5 \u2605 en 8 rese\xF1as de Google")), /* @__PURE__ */ React.createElement("h2", { className: "text-3xl font-extrabold text-slate-800" }, t.reviewsMapTitle), /* @__PURE__ */ React.createElement("p", { className: "text-sm text-slate-600" }, t.reviewsMapSub)), /* @__PURE__ */ React.createElement("div", { className: "bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-4 max-w-4xl mx-auto" }, /* @__PURE__ */ React.createElement("div", { className: "flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-slate-100" }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h3", { className: "font-bold text-lg text-slate-800" }, "Bright Blessings Home Daycare"), /* @__PURE__ */ React.createElement("p", { className: "text-xs text-slate-500" }, t.addressLabel)), /* @__PURE__ */ React.createElement(
+      "a",
+      {
+        href: "https://maps.google.com/?q=82+Tait+Rd,+Trumbull,+CT+06611",
+        target: "_blank",
+        rel: "noreferrer",
+        className: "bg-pink-600 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-sm hover:bg-pink-700 transition-colors"
+      },
+      t.directionsBtn
+    )), /* @__PURE__ */ React.createElement("div", { className: "w-full h-80 rounded-2xl overflow-hidden border border-slate-200" }, /* @__PURE__ */ React.createElement(
+      "iframe",
+      {
+        title: copy("Daycare location on Google Maps", "Ubicaci\xF3n de la guarder\xEDa en Google Maps"),
+        src: "https://maps.google.com/maps?q=82%20Tait%20Rd%2C%20Trumbull%2C%20CT%2006611&output=embed",
+        width: "100%",
+        height: "100%",
+        style: { border: 0 },
+        allowFullScreen: "",
+        loading: "lazy"
+      }
+    ))), /* @__PURE__ */ React.createElement("div", { className: "max-w-4xl mx-auto space-y-4" }, /* @__PURE__ */ React.createElement("h3", { className: "text-xl font-extrabold text-slate-800" }, t.reviewsHeading), /* @__PURE__ */ React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-6" }, reviewsList.map((rev, idx) => /* @__PURE__ */ React.createElement("div", { key: idx, className: "bg-white p-6 rounded-3xl border border-amber-100 shadow-sm space-y-3 flex flex-col justify-between" }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { className: "text-amber-500 text-sm mb-2" }, rev.stars), /* @__PURE__ */ React.createElement("p", { className: "text-xs text-slate-700 leading-relaxed italic mb-4" }, '"', lang === "en" ? rev.text : ["\xA1Ms. Rosa es incre\xEDble! Mi hija aprendi\xF3 mucho vocabulario en ingl\xE9s y espa\xF1ol, y el hogar es impecable y cari\xF1oso.", "Es una verdadera bendici\xF3n encontrar Bright Blessings. Profesional, segura, y nuestro peque\xF1o espera ir con entusiasmo cada ma\xF1ana.", "Horarios flexibles, una maravillosa \xE1rea de juego al aire libre y un cuidado excepcional. \xA1Recomiendo a Ms. Rosa a cualquier familia trabajadora!"][idx], '"')), /* @__PURE__ */ React.createElement("div", { className: "flex justify-between items-center text-xs text-slate-500 pt-2 border-t border-slate-100" }, /* @__PURE__ */ React.createElement("span", { className: "font-bold text-slate-800" }, lang === "en" ? rev.name : ["Opini\xF3n de una familia", "Familia local", "Familia de Trumbull"][idx]), /* @__PURE__ */ React.createElement("span", null, copy(rev.date, "Rese\xF1a de Google")))))))), currentPage === "play" && /* @__PURE__ */ React.createElement("div", { className: "space-y-8 animate-fadeIn" }, /* @__PURE__ */ React.createElement("div", { className: "text-center max-w-2xl mx-auto space-y-3" }, /* @__PURE__ */ React.createElement("div", { className: "inline-block bg-sky-100 text-sky-700 px-3 py-1 rounded-full text-xs font-bold" }, "\u{1F3A8} ", copy("The little discovery club", "El club de peque\xF1os exploradores")), /* @__PURE__ */ React.createElement("h2", { className: "text-3xl font-extrabold text-slate-800" }, t.playTitle), /* @__PURE__ */ React.createElement("p", { className: "text-sm text-slate-600" }, t.playSub)), /* @__PURE__ */ React.createElement("div", { className: "flex flex-wrap justify-center gap-3" }, /* @__PURE__ */ React.createElement("span", { className: "eyebrow" }, "\u{1F9E0} ", copy("Curiosity starts here", "La curiosidad empieza aqu\xED")), /* @__PURE__ */ React.createElement("span", { className: "eyebrow" }, "\u{1F91D} ", copy("Best enjoyed together", "Mejor en compa\xF1\xEDa"))), /* @__PURE__ */ React.createElement("div", { className: "flex justify-between flex-wrap gap-3 items-center max-w-5xl mx-auto" }, /* @__PURE__ */ React.createElement("h3", { className: "text-2xl" }, copy("Little words, two languages", "Peque\xF1as palabras, dos idiomas")), /* @__PURE__ */ React.createElement("button", { className: "clay-secondary", onClick: () => setRevealedWords([]) }, copy("Start again", "Empezar de nuevo"), " \u21BA")), /* @__PURE__ */ React.createElement("p", { className: "text-center text-sm", role: "status" }, copy("Words explored", "Palabras descubiertas"), ": ", revealedWords.length, " / ", playCards.length), /* @__PURE__ */ React.createElement("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto" }, playCards.map((card, idx) => {
+      const revealed = revealedWords.includes(idx);
+      const words = card.en.split(" / ");
+      return /* @__PURE__ */ React.createElement("button", { key: idx, className: "word-card", style: { "--card-color": ["#f9e8df", "#fcf1cf", "#e8f0df", "#ece9f5", "#e1efee", "#f5e5e8"][idx] }, "aria-pressed": revealed, onClick: () => setRevealedWords((prev) => prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]) }, /* @__PURE__ */ React.createElement("span", { className: "word-icon", "aria-hidden": "true" }, card.icon), /* @__PURE__ */ React.createElement("strong", null, revealed ? words[lang === "en" ? 1 : 0] : words[lang === "en" ? 0 : 1]), /* @__PURE__ */ React.createElement("small", null, revealed ? lang === "en" ? card.descEn : card.descEs : copy("Tap to discover the Spanish word", "Toque para descubrir la palabra en ingl\xE9s")), revealed && /* @__PURE__ */ React.createElement("small", { lang: lang === "en" ? "es" : "en" }, words[lang === "en" ? 0 : 1], " \u2194 ", words[lang === "en" ? 1 : 0]), /* @__PURE__ */ React.createElement("span", { className: "text-xs" }, revealed ? copy("\u2713 Discovered! Tap to turn back", "\u2713 \xA1Descubierta! Toque para volver") : copy("Let\u2019s explore! \u2197", "\xA1Vamos a explorar! \u2197")));
+    })), /* @__PURE__ */ React.createElement("div", { className: "game-grid max-w-5xl mx-auto" }, /* @__PURE__ */ React.createElement("section", { className: "game-panel", "aria-labelledby": "color-title" }, /* @__PURE__ */ React.createElement("span", { className: "text-3xl", "aria-hidden": "true" }, "\u{1F58D}\uFE0F"), /* @__PURE__ */ React.createElement("h3", { id: "color-title" }, copy("Rainbow color hunt", "Busca colores del arco\xEDris")), /* @__PURE__ */ React.createElement("p", { className: "text-sm mt-2" }, copy("Can you find", "\xBFPuedes encontrar"), " ", /* @__PURE__ */ React.createElement("strong", null, copy(["coral", "yellow", "green", "blue"][colorRound], ["el coral", "el amarillo", "el verde", "el azul"][colorRound])), copy("?", "?")), /* @__PURE__ */ React.createElement("div", { className: "color-choices" }, ["#d56e59", "#edc259", "#79a17a", "#6b9dad"].map((color, idx) => /* @__PURE__ */ React.createElement("button", { key: color, className: "color-choice", style: { background: color }, "aria-label": copy(["Coral", "Yellow", "Green", "Blue"][idx], ["Coral", "Amarillo", "Verde", "Azul"][idx]), "aria-pressed": colorAnswer === idx, onClick: () => setColorAnswer(idx) }))), /* @__PURE__ */ React.createElement("p", { className: "game-status", role: "status" }, colorAnswer === null ? copy("Pick a crayon color above.", "Elige un color de cray\xF3n.") : colorAnswer === colorRound ? copy("Wonderful! You found it. \u{1F31F}", "\xA1Muy bien! Lo encontraste. \u{1F31F}") : copy("Good exploring! Try another color.", "\xA1Sigue explorando! Prueba otro color.")), /* @__PURE__ */ React.createElement("button", { className: "clay-secondary", onClick: () => {
+      setColorRound((colorRound + 1) % 4);
+      setColorAnswer(null);
+    } }, copy("Next color", "Siguiente color"), " \u2192")), /* @__PURE__ */ React.createElement("section", { className: "game-panel", "aria-labelledby": "count-title" }, /* @__PURE__ */ React.createElement("span", { className: "text-3xl", "aria-hidden": "true" }, "\u{1F9F8}"), /* @__PURE__ */ React.createElement("h3", { id: "count-title" }, copy("Count the little blocks", "Cuenta los bloques")), /* @__PURE__ */ React.createElement("p", { className: "text-sm mt-2" }, copy("How many blocks can you see?", "\xBFCu\xE1ntos bloques puedes ver?")), /* @__PURE__ */ React.createElement("div", { className: "count-blocks", role: "img", "aria-label": copy("Building blocks to count", "Bloques para contar") }, Array.from({ length: blockCount }, (_, i) => /* @__PURE__ */ React.createElement("span", { key: i, className: "count-block", "aria-hidden": "true" }, "\u2726"))), /* @__PURE__ */ React.createElement("div", { className: "number-choices" }, [1, 2, 3, 4, 5].map((n) => /* @__PURE__ */ React.createElement("button", { key: n, "aria-label": copy("Choose " + n, "Elegir " + n), "aria-pressed": countAnswer === n, onClick: () => setCountAnswer(n) }, n))), /* @__PURE__ */ React.createElement("p", { className: "game-status mt-4", role: "status" }, countAnswer === null ? copy("Tap a number. Count together!", "Toque un n\xFAmero. \xA1Cuenten juntos!") : countAnswer === blockCount ? copy("You did it! " + blockCount + " blocks! \u{1F389}", "\xA1Lo lograste! \xA1" + blockCount + " bloques! \u{1F389}") : copy("Let\u2019s count each block and try again.", "Contemos cada bloque y probemos otra vez.")), /* @__PURE__ */ React.createElement("button", { className: "clay-secondary", onClick: () => {
+      setBlockCount(blockCount % 5 + 1);
+      setCountAnswer(null);
+    } }, copy("More blocks", "M\xE1s bloques"), " \u21BA")))), currentPage === "tour" && /* @__PURE__ */ React.createElement("div", { className: "space-y-8 animate-fadeIn max-w-2xl mx-auto" }, /* @__PURE__ */ React.createElement("div", { className: "text-center space-y-3" }, /* @__PURE__ */ React.createElement("div", { className: "inline-block bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-xs font-bold" }, "\u{1F4C5} ", t.tour), /* @__PURE__ */ React.createElement("h2", { className: "text-3xl font-extrabold text-slate-800" }, t.tourTitle), /* @__PURE__ */ React.createElement("p", { className: "text-sm text-slate-600" }, t.tourSub)), /* @__PURE__ */ React.createElement("div", { className: "bg-white p-8 rounded-3xl border border-slate-100 shadow-sm" }, tourSubmitted ? /* @__PURE__ */ React.createElement("div", { className: "text-center py-12 space-y-4" }, /* @__PURE__ */ React.createElement("div", { className: "text-5xl" }, "\u2728"), /* @__PURE__ */ React.createElement("h3", { className: "text-2xl font-bold text-slate-800" }, t.tourSuccessTitle), /* @__PURE__ */ React.createElement("p", { className: "text-sm text-slate-600" }, t.tourSuccessMsg), /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        onClick: () => setTourSubmitted(false),
+        className: "mt-4 bg-pink-600 text-white px-6 py-2.5 rounded-xl text-xs font-bold shadow-sm hover:bg-pink-700 transition-colors"
+      },
+      copy("Edit / send another request", "Editar / enviar otra solicitud")
+    )) : /* @__PURE__ */ React.createElement(
+      "form",
+      {
+        onSubmit: (e) => {
+          e.preventDefault();
+          const lines = [t.nameLabel + ": " + tourForm.name, t.emailLabel + ": " + tourForm.email, t.phoneLabel + ": " + tourForm.phone, t.dateLabel + ": " + tourForm.date, t.notesLabel + ": " + tourForm.notes];
+          window.location.href = "mailto:BrightBlessingshdc@gmail.com?subject=" + encodeURIComponent(copy("Daycare tour request", "Solicitud de visita a la guarder\xEDa")) + "&body=" + encodeURIComponent(lines.join("\n"));
+          setTourSubmitted(true);
+        },
+        className: "space-y-4"
+      },
+      /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", { htmlFor: "tour-name", className: "block text-xs font-bold text-slate-700 mb-1" }, t.nameLabel), /* @__PURE__ */ React.createElement(
+        "input",
+        {
+          type: "text",
+          required: true,
+          id: "tour-name",
+          name: "name",
+          autoComplete: "name",
+          value: tourForm.name,
+          onChange: (e) => setTourForm({ ...tourForm, name: e.target.value }),
+          className: "w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-pink-500",
+          placeholder: copy("e.g. Maria Rodriguez", "p. ej. Mar\xEDa Rodr\xEDguez")
+        }
+      )),
+      /* @__PURE__ */ React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4" }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", { htmlFor: "tour-email", className: "block text-xs font-bold text-slate-700 mb-1" }, t.emailLabel), /* @__PURE__ */ React.createElement(
+        "input",
+        {
+          type: "email",
+          required: true,
+          id: "tour-email",
+          name: "email",
+          autoComplete: "email",
+          value: tourForm.email,
+          onChange: (e) => setTourForm({ ...tourForm, email: e.target.value }),
+          className: "w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-pink-500",
+          placeholder: "maria@example.com"
+        }
+      )), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", { htmlFor: "tour-phone", className: "block text-xs font-bold text-slate-700 mb-1" }, t.phoneLabel), /* @__PURE__ */ React.createElement(
+        "input",
+        {
+          type: "tel",
+          required: true,
+          id: "tour-phone",
+          name: "phone",
+          autoComplete: "tel",
+          value: tourForm.phone,
+          onChange: (e) => setTourForm({ ...tourForm, phone: e.target.value }),
+          className: "w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-pink-500",
+          placeholder: "(203) 555-0199"
+        }
+      ))),
+      /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", { htmlFor: "tour-date", className: "block text-xs font-bold text-slate-700 mb-1" }, t.dateLabel), /* @__PURE__ */ React.createElement(
+        "input",
+        {
+          type: "date",
+          min: (/* @__PURE__ */ new Date()).toLocaleDateString("en-CA"),
+          required: true,
+          id: "tour-date",
+          name: "date",
+          value: tourForm.date,
+          onChange: (e) => setTourForm({ ...tourForm, date: e.target.value }),
+          className: "w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-pink-500"
+        }
+      )),
+      /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", { htmlFor: "tour-notes", className: "block text-xs font-bold text-slate-700 mb-1" }, t.notesLabel), /* @__PURE__ */ React.createElement(
+        "textarea",
+        {
+          rows: 3,
+          id: "tour-notes",
+          name: "notes",
+          value: tourForm.notes,
+          onChange: (e) => setTourForm({ ...tourForm, notes: e.target.value }),
+          className: "w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-pink-500",
+          placeholder: copy("Tell us your child's age and preferred visit time...", "Cu\xE9ntenos la edad de su hijo y la hora de visita que prefiere...")
+        }
+      )),
+      /* @__PURE__ */ React.createElement(
+        "button",
+        {
+          type: "submit",
+          className: "w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white py-3.5 rounded-2xl font-bold text-sm shadow-md hover:opacity-95 transition-opacity"
+        },
+        t.submitTour,
+        " \u2197"
+      ),
+      /* @__PURE__ */ React.createElement("p", { className: "text-xs text-slate-500" }, copy("Opens your email app. Please send the email to complete your request, or call Ms. Rosa.", "Se abre su aplicaci\xF3n de correo. Env\xEDe el mensaje para completar la solicitud o llame a Ms. Rosa."))
+    )), /* @__PURE__ */ React.createElement("div", { className: "bg-purple-50 border border-purple-200 p-6 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-4" }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h4", { className: "font-bold text-slate-800 text-sm" }, copy("Need immediate assistance?", "\xBFNecesita ayuda inmediata?")), /* @__PURE__ */ React.createElement("p", { className: "text-xs text-slate-600" }, copy("Call Ms. Rosa directly or send an email anytime.", "Llame directamente a Ms. Rosa o env\xEDe un correo."))), /* @__PURE__ */ React.createElement("div", { className: "flex gap-2" }, /* @__PURE__ */ React.createElement("a", { href: "tel:2034001232", className: "bg-pink-600 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-sm" }, "\u{1F4DE} 203-400-1232"), /* @__PURE__ */ React.createElement("a", { href: "mailto:BrightBlessingshdc@gmail.com", className: "bg-purple-600 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-sm" }, "\u2709\uFE0F ", t.emailUs))))), /* @__PURE__ */ React.createElement("footer", { className: "bg-slate-900 text-slate-300 py-12 mt-16 border-t border-slate-800" }, /* @__PURE__ */ React.createElement("div", { className: "max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left" }, /* @__PURE__ */ React.createElement("div", { className: "space-y-3" }, /* @__PURE__ */ React.createElement("h3", { className: "text-white font-bold text-lg" }, "\u{1F308} Bright Blessings Home Daycare"), /* @__PURE__ */ React.createElement("p", { className: "text-xs text-slate-400" }, t.tagline), /* @__PURE__ */ React.createElement("p", { className: "text-xs text-slate-400" }, copy("Phone", "Tel\xE9fono"), ": 203-400-1232 \u2022 ", copy("Email", "Correo"), ": BrightBlessingshdc@gmail.com")), /* @__PURE__ */ React.createElement("div", { className: "space-y-2" }, /* @__PURE__ */ React.createElement("h4", { className: "text-white font-bold text-sm" }, copy("Explore with us", "Explore con nosotros")), /* @__PURE__ */ React.createElement("div", { className: "flex flex-col gap-1 text-xs" }, /* @__PURE__ */ React.createElement("button", { onClick: () => setCurrentPage("schedule"), className: "hover:text-pink-400" }, t.schedule), /* @__PURE__ */ React.createElement("button", { onClick: () => setCurrentPage("spaces"), className: "hover:text-pink-400" }, t.spaces), /* @__PURE__ */ React.createElement("button", { onClick: () => setCurrentPage("programs"), className: "hover:text-pink-400" }, t.programs), /* @__PURE__ */ React.createElement("button", { onClick: () => setCurrentPage("tour"), className: "hover:text-pink-400" }, t.tour))), /* @__PURE__ */ React.createElement("div", { className: "space-y-2" }, /* @__PURE__ */ React.createElement("h4", { className: "text-white font-bold text-sm" }, copy("Hours & subsidies", "Horarios y subsidios")), /* @__PURE__ */ React.createElement("p", { className: "text-xs text-slate-400" }, copy("Regular hours: Monday \u2013 Friday 7:00 AM \u2013 5:00 PM", "Horario regular: lunes a viernes 7:00 AM \u2013 5:00 PM")), /* @__PURE__ */ React.createElement("p", { className: "text-xs text-slate-400" }, copy("State licensed hours: 6:00 AM \u2013 10:00 PM", "Horario autorizado: 6:00 AM \u2013 10:00 PM")), /* @__PURE__ */ React.createElement("p", { className: "text-xs text-slate-400" }, copy("CT Care 4 Kids subsidies welcomed", "Aceptamos subsidios CT Care 4 Kids")))), /* @__PURE__ */ React.createElement("div", { className: "max-w-7xl mx-auto px-4 pt-8 mt-8 border-t border-slate-800 text-center text-xs text-slate-500" }, "\xA9 ", (/* @__PURE__ */ new Date()).getFullYear(), " Bright Blessings Home Daycare. ", copy("All rights reserved.", "Todos los derechos reservados."))));
+  }
+  const root = ReactDOM.createRoot(document.getElementById("root"));
+  root.render(/* @__PURE__ */ React.createElement(App, null));
+})();
+</script>
 </body>
 </html>
